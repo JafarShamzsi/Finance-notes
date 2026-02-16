@@ -48,6 +48,17 @@
 - Dynamic hedge ratios
 - Pairs trading spread estimation
 
+### Cointegration → [[Cointegration]]
+- Engle-Granger two-step test
+- Johansen multivariate test
+- Half-life of mean reversion
+- Foundation for [[Statistical Arbitrage]] and [[Pairs Trading]]
+
+### Regime Detection → [[Regime Detection]]
+- Hidden Markov Models (HMM)
+- Change-point detection (CUSUM, PELT)
+- Strategy adaptation by market regime
+
 ## Quick Reference: Key Formulas
 
 ### Returns

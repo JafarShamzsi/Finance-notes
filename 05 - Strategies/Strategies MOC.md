@@ -64,20 +64,44 @@
 8. **Deploy** — Go live with small size
 9. **Monitor** — Track performance, detect decay
 
+## Strategy Categories
+- [[05 - Strategies/HFT/High-Frequency Trading|High-Frequency Trading]]
+- [[05 - Strategies/Market Making/Market Making Strategies|Market Making]]
+- [[05 - Strategies/Mean Reversion/Mean Reversion Strategies|Mean Reversion]]
+- [[05 - Strategies/Momentum/Momentum Strategies|Momentum]]
+- [[05 - Strategies/Statistical Arbitrage/Statistical Arbitrage|Statistical Arbitrage]]
+- [[05 - Strategies/Machine Learning/Machine Learning Strategies|Machine Learning]]
+- [[05 - Strategies/Options/Options Strategies for Algos|Options]]
+
 ## All Strategy Notes
+
+### Directional
 - [[Momentum Strategies]]
 - [[Mean Reversion Strategies]]
+- [[Trend Following]]
+- [[Breakout Strategies]]
+
+### Market Neutral / Relative Value
 - [[Statistical Arbitrage]]
 - [[Pairs Trading]]
 - [[Market Making Strategies]]
-- [[High-Frequency Trading]]
-- [[Trend Following]]
-- [[Breakout Strategies]]
-- [[Options Strategies for Algos]]
-- [[Sentiment-Based Strategies]]
+
+### Alpha & Factor
+- [[Alpha Research]] — Systematic alpha generation pipeline
+- [[Factor Investing]] — Systematic factor harvesting (value, momentum, quality)
+
+### Quantitative
 - [[Machine Learning Strategies]]
+- [[Sentiment-Based Strategies]]
+- [[High-Frequency Trading]]
+
+### Options & Volatility
+- [[Options Strategies for Algos]]
+- [[Volatility Trading]] — Vol surface, gamma scalping, variance swaps
+
+### Alternative Markets
 - [[Crypto Algorithmic Trading]]
 
 ---
 
-**Related:** [[Trading Algorithms Master Index]] | [[Backtesting MOC]] | [[Risk Management MOC]] | [[Performance Metrics]]
+**Related:** [[Trading Algorithms Master Index]] | [[Backtesting MOC]] | [[Risk Management MOC]] | [[Performance Metrics]] | [[Portfolio Management MOC]]

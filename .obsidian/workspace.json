@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01 - Foundations/Financial Markets Overview.md",
+                "file": "00 - MOC/Trading Algorithms Master Index.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Financial Markets Overview"
+              "title": "Trading Algorithms Master Index"
             }
           }
         ]
@@ -30,9 +30,11 @@
           {
             "id": "2c7eb55f907b4bd7",
             "type": "leaf",
+            "pinned": true,
             "state": {
               "type": "graph",
               "state": {},
+              "pinned": true,
               "icon": "lucide-git-fork",
               "title": "Graph view"
             }
@@ -110,17 +112,16 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "01 - Foundations/Financial Markets Overview.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
                 "showSearch": false,
                 "searchQuery": "",
                 "backlinkCollapsed": false,
-                "unlinkedCollapsed": true
+                "unlinkedCollapsed": false
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Financial Markets Overview"
+              "title": "Backlinks"
             }
           },
           {
@@ -197,13 +198,16 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
+    "width": 255.5,
     "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
-      "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false,
+      "omnisearch:Omnisearch": false,
+      "obsidian-importer:Open Importer": false,
+      "switcher:Open quick switcher": false,
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
@@ -212,43 +216,43 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "c0385419d1285cd5",
+  "active": "2c7eb55f907b4bd7",
   "lastOpenFiles": [
-    "04 - Data Engineering/Data Cleaning and Preprocessing.md",
-    "04 - Data Engineering/Alternative Data.md",
-    "04 - Data Engineering/Market Data Sources.md",
-    "04 - Data Engineering/Data Engineering MOC.md",
-    "02 - Market Microstructure/Tick Data and Trade Data.md",
-    "02 - Market Microstructure/Liquidity.md",
-    "02 - Market Microstructure/Market Impact.md",
-    "02 - Market Microstructure/Price Discovery.md",
-    "02 - Market Microstructure/Bid-Ask Spread.md",
-    "01 - Foundations/Financial Markets Overview.md",
-    "02 - Market Microstructure/Order Book Dynamics.md",
-    "03 - Mathematics/Linear Algebra in Finance.md",
-    "02 - Market Microstructure/Market Microstructure MOC.md",
+    "00 - MOC/Trading Algorithms Master Index.md",
+    "13 - Python Code/Python Code MOC.md",
+    "00 - MOC/TODO - Vault Roadmap.md",
+    "07 - Execution/Transaction Cost Analysis (TCA).md",
+    "14 - Resources/Resources MOC.md",
+    "14 - Resources/Key People in Quant Finance.md",
+    "14 - Resources/Key Papers.md",
+    "14 - Resources/Glossary.md",
+    "14 - Resources/Essential Books.md",
+    "01 - Foundations/Order Types and Execution.md",
+    "01 - Foundations/Fees Commissions and Slippage.md",
     "03 - Mathematics/Kalman Filter.md",
-    "03 - Mathematics/Monte Carlo Simulation.md",
-    "03 - Mathematics/Optimization Methods.md",
-    "03 - Mathematics/Stochastic Calculus.md",
+    "01 - Foundations/What is Algorithmic Trading.md",
     "03 - Mathematics/Time Series Analysis.md",
-    "03 - Mathematics/Probability and Statistics for Trading.md",
-    "03 - Mathematics/Mathematics MOC.md",
-    "05 - Strategies/Crypto Algorithmic Trading.md",
-    "05 - Strategies/Machine Learning/Machine Learning Strategies.md",
-    "05 - Strategies/Machine Learning/Sentiment-Based Strategies.md",
-    "01 - Foundations/Asset Classes.md",
-    "05 - Strategies/Options/Options Strategies for Algos.md",
-    "05 - Strategies/Momentum/Breakout Strategies.md",
+    "03 - Mathematics/Cointegration.md",
+    "08 - Backtesting/Walk-Forward Analysis.md",
+    "08 - Backtesting/Survivorship Bias.md",
+    "08 - Backtesting/Performance Metrics.md",
+    "08 - Backtesting/Overfitting.md",
+    "08 - Backtesting/Lookahead Bias.md",
+    "08 - Backtesting/Backtesting Platforms and Frameworks.md",
+    "08 - Backtesting/Backtesting MOC.md",
+    "08 - Backtesting/Backtesting Framework Design.md",
+    "07 - Execution/Transaction Cost Analysis.md",
+    "07 - Execution/Smart Order Routing.md",
+    "07 - Execution/Iceberg Orders.md",
+    "13 - Python Code/Monte Carlo Simulation.py",
+    "13 - Python Code/Pairs Trading.py",
+    "13 - Python Code/Simple Moving Average Crossover.py",
     "05 - Strategies/Statistical Arbitrage/Pairs Trading.md.tmp.42856.1771176309155",
     "14 - Resources",
     "13 - Python Code",
     "12 - Regulation and Compliance",
     "11 - ML and AI",
     "10 - Portfolio Management",
-    "09 - Infrastructure",
-    "08 - Backtesting",
-    "07 - Execution",
-    "06 - Risk Management"
+    "09 - Infrastructure"
   ]
 }

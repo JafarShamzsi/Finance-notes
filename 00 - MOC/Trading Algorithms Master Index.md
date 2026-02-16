@@ -1,10 +1,10 @@
 # Trading Algorithms — Master Index
 
-> A comprehensive knowledge base for algorithmic trading, quantitative finance, and systematic strategy development.
+> A comprehensive knowledge base for algorithmic trading, quantitative finance, and systematic strategy development. Built by a quant, for quants.
 
 ---
 
-## Foundations
+## 01 — Foundations
 - [[What is Algorithmic Trading]]
 - [[Financial Markets Overview]]
 - [[Asset Classes]]
@@ -13,7 +13,7 @@
 - [[Trading Sessions and Hours]]
 - [[Fees Commissions and Slippage]]
 
-## Market Microstructure
+## 02 — Market Microstructure
 - [[Market Microstructure MOC]]
 - [[Order Book Dynamics]]
 - [[Bid-Ask Spread]]
@@ -22,7 +22,7 @@
 - [[Liquidity]]
 - [[Tick Data and Trade Data]]
 
-## Mathematics & Quantitative Methods
+## 03 — Mathematics & Quantitative Methods
 - [[Mathematics MOC]]
 - [[Probability and Statistics for Trading]]
 - [[Time Series Analysis]]
@@ -31,8 +31,10 @@
 - [[Optimization Methods]]
 - [[Monte Carlo Simulation]]
 - [[Kalman Filter]]
+- [[Cointegration]] — Mathematical foundation of stat arb
+- [[Regime Detection]] — HMM and change-point detection
 
-## Data Engineering
+## 04 — Data Engineering
 - [[Data Engineering MOC]]
 - [[Market Data Sources]]
 - [[Alternative Data]]
@@ -41,22 +43,37 @@
 - [[Database Design for Trading]]
 - [[Real-Time Data Pipelines]]
 
-## Strategies
+## 05 — Strategies
 - [[Strategies MOC]]
+
+### Directional
 - [[Momentum Strategies]]
 - [[Mean Reversion Strategies]]
+- [[Trend Following]]
+- [[Breakout Strategies]]
+
+### Market Neutral / Relative Value
 - [[Statistical Arbitrage]]
 - [[Pairs Trading]]
 - [[Market Making Strategies]]
-- [[High-Frequency Trading]]
-- [[Trend Following]]
-- [[Breakout Strategies]]
-- [[Options Strategies for Algos]]
-- [[Sentiment-Based Strategies]]
+
+### Alpha & Factors
+- [[Alpha Research]] — Systematic alpha pipeline, signal construction, decay
+- [[Factor Investing]] — Value, momentum, quality, low-vol, carry
+
+### Quantitative & ML
 - [[Machine Learning Strategies]]
+- [[Sentiment-Based Strategies]]
+- [[High-Frequency Trading]]
+
+### Options & Volatility
+- [[Options Strategies for Algos]]
+- [[Volatility Trading]] — Vol surface, Greeks, gamma scalping
+
+### Alternative Markets
 - [[Crypto Algorithmic Trading]]
 
-## Risk Management
+## 06 — Risk Management
 - [[Risk Management MOC]]
 - [[Value at Risk (VaR)]]
 - [[Position Sizing]]
@@ -66,7 +83,7 @@
 - [[Tail Risk and Black Swans]]
 - [[Stop Loss Strategies]]
 
-## Execution
+## 07 — Execution
 - [[Execution MOC]]
 - [[TWAP Algorithm]]
 - [[VWAP Algorithm]]
@@ -74,65 +91,72 @@
 - [[Iceberg Orders]]
 - [[Smart Order Routing]]
 - [[Transaction Cost Analysis]]
+- [[Execution Venues]]
+- [[Order Routing]]
+- [[Market Impact Models]]
+- [[High-Frequency Trading Infrastructure]]
 
-## Backtesting
+## 08 — Backtesting
 - [[Backtesting MOC]]
 - [[Backtesting Framework Design]]
-- [[Overfitting and Curve Fitting]]
-- [[Walk-Forward Analysis]]
-- [[Monte Carlo Backtesting]]
-- [[Performance Metrics]]
+- [[Overfitting]]
+- [[Lookahead Bias]]
 - [[Survivorship Bias]]
-- [[Look-Ahead Bias]]
+- [[Walk-Forward Analysis]]
+- [[Performance Metrics]]
+- [[Backtesting Platforms and Frameworks]]
 
-## Infrastructure
+## 09 — Infrastructure
 - [[Infrastructure MOC]]
-- [[Trading System Architecture]]
-- [[Low-Latency Systems]]
-- [[Co-location and Proximity]]
-- [[FIX Protocol]]
-- [[API Integration (Brokers)]]
+- [[Data Feeds]]
+- [[Trading Servers]]
+- [[Connectivity]]
 - [[Cloud vs On-Premise]]
-- [[Monitoring and Alerting]]
 
-## Portfolio Management
+## 10 — Portfolio Management
 - [[Portfolio Management MOC]]
 - [[Modern Portfolio Theory]]
 - [[Black-Litterman Model]]
 - [[Factor Models]]
-- [[Portfolio Optimization]]
-- [[Rebalancing Strategies]]
-- [[Alpha and Beta]]
+- [[Portfolio Optimization]] — Mean-variance, risk parity, HRP, CVaR
+- [[Portfolio Rebalancing]]
+- [[Performance Attribution]]
 
-## ML & AI in Trading
+## 11 — ML & AI in Trading
 - [[ML and AI MOC]]
-- [[Supervised Learning for Price Prediction]]
-- [[Reinforcement Learning for Trading]]
-- [[Natural Language Processing for Finance]]
-- [[Deep Learning for Time Series]]
-- [[Feature Selection and Importance]]
-- [[Model Validation in Finance]]
+- [[Supervised Learning]]
+- [[Unsupervised Learning]]
+- [[Reinforcement Learning]]
+- [[Deep Learning]] — LSTM, Transformer, Autoencoder, GAN
+- [[Natural Language Processing (NLP)]]
 
-## Regulation & Compliance
+## 12 — Regulation & Compliance
 - [[Regulation and Compliance MOC]]
-- [[SEC and FINRA Regulations]]
+- [[SEC and FINRA Rules]]
+- [[Reg NMS]] — National Market System, NBBO, market fragmentation
 - [[MiFID II]]
-- [[Market Manipulation Laws]]
+- [[Market Manipulation]] — Spoofing, layering, wash trading
 - [[Pattern Day Trader Rule]]
+- [[Insider Trading]]
 
-## Code & Implementation
-- [[Python Trading Libraries]]
-- [[Backtrader Framework]]
-- [[Zipline Framework]]
-- [[QuantConnect Platform]]
-- [[Interactive Brokers API]]
-- [[Sample Strategy - Moving Average Crossover]]
-- [[Sample Strategy - Pairs Trading]]
+## 13 — Code & Implementation
+- [[Python Code MOC]] — Libraries, templates, code index
 
-## Resources
-- [[Books and Papers]]
-- [[Key People in Quant Finance]]
-- [[Glossary of Trading Terms]]
+## 14 — Resources
+- [[Resources MOC]]
+- [[Essential Books]] — Ranked reading list for quants
+- [[Key Papers]] — Foundational academic papers
+- [[Key People in Quant Finance]] — Legends, practitioners, firms
+- [[Glossary]] — Quant finance terminology A-Z
 
 ---
-*Built as a systematic knowledge graph. Every note links to related concepts. Start anywhere and explore.*
+
+## Vault Statistics
+- **Sections:** 14
+- **Notes:** 100+
+- **Code examples:** Python implementations embedded throughout
+- **Cross-links:** Every note links to related concepts
+
+---
+
+*Built as a systematic knowledge graph. Start anywhere and explore. Every note connects to the broader system.*
