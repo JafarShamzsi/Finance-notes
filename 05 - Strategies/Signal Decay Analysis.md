@@ -93,6 +93,118 @@ def turnover_adjusted_performance(signal, returns, tc_bps=5):
 
 ---
 
+## Forward IC (Signal Decay Profile)
+
+While rolling IC tracks a signal's performance over time for a *fixed* forward horizon (e.g., 1-day returns), a **Forward IC analysis** answers a different, crucial question: "How long does my signal's predictive power last?"
+
+It measures the Information Coefficient of the signal at time `t` against returns over various future horizons (`t+1`, `t+2`, ..., `t+h`). A strong, fast-decaying signal has a high IC for `t+1` returns which quickly drops to zero. A slow-decaying signal (like a value factor) will have an IC that stays positive for many periods.
+
+This analysis is essential for determining the optimal **holding period** for a strategy and the required **trading frequency**.
+
+### Methodology
+1.  **Calculate forward returns:** For each day, compute the returns for the next 1 day, 2 days, ..., `H` days.
+2.  **Align signal and returns:** Align the signal values at time `t` with the forward returns starting at `t`.
+3.  **Compute IC for each horizon:** Calculate the Spearman correlation between the signal and the returns for each of the `H` forward horizons.
+4.  **Plot the results:** Plot the IC values against the forward horizon (1 to `H`). This is the signal decay profile.
+
+### Python Implementation for Decay Profile
+
+```python
+import pandas as pd
+import numpy as np
+from scipy.stats import spearmanr
+import matplotlib.pyplot as plt
+
+def compute_forward_returns(prices, max_horizon=21):
+    """
+    Computes forward returns for multiple horizons.
+
+    Parameters:
+        prices: pd.DataFrame of asset prices (dates × assets)
+        max_horizon: Maximum number of days forward to compute returns
+
+    Returns:
+        A dictionary of DataFrames, where each key is a horizon (e.g., 1, 2, ...)
+    """
+    forward_returns = {}
+    for h in range(1, max_horizon + 1):
+        # pct_change is backwards-looking, so we shift prices to make it forward
+        forward_returns[h] = prices.pct_change(periods=h).shift(-h)
+    return forward_returns
+
+def get_signal_decay_profile(signal, prices, max_horizon=21):
+    """
+    Computes and plots the forward IC decay profile for a signal.
+
+    Parameters:
+        signal: pd.DataFrame of signal values (dates × assets)
+        prices: pd.DataFrame of asset prices
+        max_horizon: Maximum forward horizon to test
+    """
+    # Ensure signal and prices are aligned
+    aligned_signal, aligned_prices = signal.align(prices, join='inner', axis=0)
+    
+    forward_returns = compute_forward_returns(aligned_prices, max_horizon)
+    
+    ic_by_horizon = []
+    horizons = range(1, max_horizon + 1)
+
+    for h in horizons:
+        fwd_ret = forward_returns[h]
+        
+        # Align signal with the specific forward return DataFrame
+        s, r = aligned_signal.align(fwd_ret, join='inner', axis=0)
+
+        # Flatten and compute IC, ignoring NaNs
+        s_flat = s.values.flatten()
+        r_flat = r.values.flatten()
+        mask = ~np.isnan(s_flat) & ~np.isnan(r_flat)
+        
+        if mask.sum() > 2:
+            ic, _ = spearmanr(s_flat[mask], r_flat[mask])
+            ic_by_horizon.append(ic)
+        else:
+            ic_by_horizon.append(np.nan)
+            
+    ic_profile = pd.Series(ic_by_horizon, index=horizons)
+    
+    # --- Plotting ---
+    plt.style.use('seaborn-v0_8-darkgrid')
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    ic_profile.plot(kind='bar', ax=ax, alpha=0.8, color='navy')
+    
+    ax.set_title('Forward IC (Signal Decay Profile)', fontsize=16)
+    ax.set_xlabel('Forward Return Horizon (Days)', fontsize=12)
+    ax.set_ylabel('Information Coefficient (IC)', fontsize=12)
+    ax.axhline(0, color='black', linestyle='--', linewidth=1)
+    
+    # Add labels to bars
+    for i, val in enumerate(ic_profile):
+        if pd.notna(val):
+            ax.text(i, val + 0.005 * np.sign(val), f'{val:.3f}', 
+                    ha='center', va='bottom' if val >= 0 else 'top', fontsize=9)
+            
+    plt.tight_layout()
+    plt.show()
+    
+    return ic_profile
+
+# Example Usage:
+# Assuming you have a `signal_df` and `prices_df`
+# decay_profile = get_signal_decay_profile(signal_df, prices_df)
+# print(decay_profile)
+
+```
+
+### Interpreting the Decay Profile
+- **Peak IC:** The horizon with the highest IC is often the optimal holding period for the signal.
+- **Decay Speed:** How quickly the IC drops towards zero indicates the signal's half-life. A momentum signal might decay over weeks, while a microsecond latency arbitrage signal decays in milliseconds.
+- **Zero-Crossing:** The point where the IC crosses zero. Holding the signal beyond this point is detrimental, as the predictive power has inverted.
+- **Negative IC:** A significant negative IC at later horizons might suggest a mean-reversion effect that could be captured as a separate strategy.
+
+---
+
 ## Decay Detection Framework
 
 ### Structural Break Detection

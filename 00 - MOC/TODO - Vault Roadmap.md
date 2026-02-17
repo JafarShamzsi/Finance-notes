@@ -7,15 +7,15 @@
 ## High Priority — Add Next
 
 ### New Notes to Create
-- [ ] **Greeks Deep Dive** — Full derivation of Delta, Gamma, Theta, Vega, Rho with Python implementations
-- [ ] **Black-Scholes Model** — Dedicated note with derivation, assumptions, limitations, extensions
-- [ ] **Volatility Surface Modeling** — SABR model, SVI parameterization, local vol vs stochastic vol
-- [ ] **GARCH Models** — GARCH(1,1), EGARCH, GJR-GARCH for volatility forecasting
-- [ ] **Copulas** — Dependency modeling beyond correlation, tail dependence
-- [ ] **Signal Decay Analysis** — How to measure and monitor alpha decay in production
-- [ ] **Risk Parity Deep Dive** — Bridgewater's All Weather, implementation details, leverage
-- [ ] **Transaction Cost Models** — Almgren-Chriss detailed implementation, market impact estimation
-- [ ] **Order Flow Analysis** — VPIN, order flow toxicity, information content of trades
+- [x] **Greeks Deep Dive** — Full derivation of Delta, Gamma, Theta, Vega, Rho with Python implementations
+- [x] **Black-Scholes Model** — Dedicated note with derivation, assumptions, limitations, extensions
+- [x] **Volatility Surface Modeling** — SABR model, SVI parameterization, local vol vs stochastic vol
+- [x] **GARCH Models** — GARCH(1,1), EGARCH, GJR-GARCH for volatility forecasting
+- [x] **Copulas** — Dependency modeling beyond correlation, tail dependence
+- [x] **Signal Decay Analysis** — How to measure and monitor alpha decay in production
+- [x] **Risk Parity Deep Dive** — Bridgewater's All Weather, implementation details, leverage
+- [x] **Transaction Cost Models** — Almgren-Chriss detailed implementation, market impact estimation
+- [x] **Order Flow Analysis** — VPIN, order flow toxicity, information content of trades
 
 ### Expand Existing Notes
 - [ ] **Supervised Learning** — Add more code examples, feature importance methods, purged CV

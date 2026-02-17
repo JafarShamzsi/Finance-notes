@@ -144,6 +144,66 @@ $$\rho_{\text{put}} = -KTe^{-rT}N(-d_2)$$
 
 ---
 
+## Derivations of the Greeks
+The following are the derivations of the primary Greeks from the Black-Scholes call option pricing formula:
+$$C(S,t) = S N(d_1) - K e^{-r(T-t)} N(d_2)$$
+Where $N(x)$ is the standard normal CDF and $\phi(x)$ is the standard normal PDF, with the useful identity $\frac{dN(x)}{dx} = \phi(x)$.
+
+### Deriving Delta ($\Delta$)
+Delta is the partial derivative of the option price with respect to the spot price, $\frac{\partial C}{\partial S}$.
+We need to find $\frac{\partial d_1}{\partial S}$ and $\frac{\partial d_2}{\partial S}$ first, using the chain rule.
+$$d_1 = \frac{\ln(S/K) + (r + \sigma^2/2)(T-t)}{\sigma\sqrt{T-t}}$$
+$$\frac{\partial d_1}{\partial S} = \frac{1}{S\sigma\sqrt{T-t}}$$
+And since $d_2 = d_1 - \sigma\sqrt{T-t}$, their derivatives are identical:
+$$\frac{\partial d_2}{\partial S} = \frac{1}{S\sigma\sqrt{T-t}}$$
+Now, applying the product rule to the call price formula:
+$$\Delta = \frac{\partial C}{\partial S} = \left( N(d_1) + S \frac{\partial N(d_1)}{\partial S} \right) - K e^{-r(T-t)} \frac{\partial N(d_2)}{\partial S}$$
+Using the chain rule, $\frac{\partial N(d_1)}{\partial S} = \phi(d_1)\frac{\partial d_1}{\partial S}$:
+$$\Delta = N(d_1) + S \phi(d_1)\frac{1}{S\sigma\sqrt{T-t}} - K e^{-r(T-t)} \phi(d_2)\frac{1}{S\sigma\sqrt{T-t}}$$
+A key identity in the Black-Scholes derivation is $S\phi(d_1) = K e^{-r(T-t)}\phi(d_2)$. The second and third terms are therefore equal and cancel out.
+This leaves:
+$$\Delta = N(d_1)$$
+
+### Deriving Gamma ($\Gamma$)
+Gamma is the second partial derivative with respect to spot, $\frac{\partial^2 C}{\partial S^2} = \frac{\partial \Delta}{\partial S}$.
+$$\Gamma = \frac{\partial}{\partial S} N(d_1) = \phi(d_1) \frac{\partial d_1}{\partial S}$$
+Substituting the derivative we found earlier:
+$$\Gamma = \frac{\phi(d_1)}{S\sigma\sqrt{T-t}}$$
+
+### Deriving Vega ($\mathcal{V}$)
+Vega is the partial derivative with respect to volatility, $\frac{\partial C}{\partial \sigma}$.
+This requires finding $\frac{\partial d_1}{\partial \sigma}$ and $\frac{\partial d_2}{\partial \sigma}$. This is more complex than the previous derivatives.
+$$\frac{\partial d_1}{\partial \sigma} = -\frac{\ln(S/K) + (r - \sigma^2/2)(T-t)}{\sigma^2\sqrt{T-t}} = \frac{d_2}{\sigma}$$
+$$\frac{\partial d_2}{\partial \sigma} = \frac{d_1}{\sigma}$$
+Now, taking the derivative of the call price with respect to $\sigma$:
+$$\mathcal{V} = S \phi(d_1)\frac{\partial d_1}{\partial \sigma} - K e^{-r(T-t)}\phi(d_2)\frac{\partial d_2}{\partial \sigma}$$
+Substitute the derivatives of d1 and d2:
+$$\mathcal{V} = S \phi(d_1)\frac{d_2}{\sigma} - K e^{-r(T-t)}\phi(d_2)\frac{d_1}{\sigma}$$
+Using the identity $S\phi(d_1) = K e^{-r(T-t)}\phi(d_2)$ again, we can factor it out:
+$$\mathcal{V} = \frac{S\phi(d_1)}{\sigma} (d_2 - d_1)$$
+Since $d_2 - d_1 = -\sigma\sqrt{T-t}$:
+$$\mathcal{V} = \frac{S\phi(d_1)}{\sigma} (-\sigma\sqrt{T-t}) = S\phi(d_1)\sqrt{T-t}$$
+
+### Deriving Theta ($\Theta$)
+Theta is the negative of the partial derivative with respect to time to expiration, $\frac{\partial C}{\partial t}$. Let $\tau = T-t$.
+$$\Theta = -\frac{\partial C}{\partial \tau} = - \left[ S\phi(d_1)\frac{\partial d_1}{\partial \tau} - K e^{-r\tau} \left( (-r)N(d_2) + \phi(d_2)\frac{\partial d_2}{\partial \tau} \right) \right]$$
+The derivatives of d1 and d2 w.r.t $\tau$ are:
+$$\frac{\partial d_1}{\partial \tau} = \frac{r+\sigma^2/2}{2\sigma\sqrt{\tau}} - \frac{\ln(S/K)}{2\sigma\tau^{3/2}}$$
+$$\frac{\partial d_2}{\partial \tau} = \frac{r-\sigma^2/2}{2\sigma\sqrt{\tau}} - \frac{\ln(S/K)}{2\sigma\tau^{3/2}}$$
+After significant algebraic simplification, this yields the standard Theta formula:
+$$\Theta = -\frac{S\phi(d_1)\sigma}{2\sqrt{\tau}} - rKe^{-r\tau}N(d_2)$$
+
+### Deriving Rho ($\rho$)
+Rho is the partial derivative with respect to the risk-free rate, $\frac{\partial C}{\partial r}$.
+This derivation is simpler.
+$$\rho = S \phi(d_1) \frac{\partial d_1}{\partial r} - \left( (- (T-t)) K e^{-r(T-t)} N(d_2) + K e^{-r(T-t)} \phi(d_2) \frac{\partial d_2}{\partial r} \right)$$
+The derivatives of d1 and d2 w.r.t r are $\frac{\partial d_1}{\partial r} = \frac{\partial d_2}{\partial r} = \frac{T-t}{\sigma\sqrt{T-t}}$.
+Again using the identity $S\phi(d_1) = K e^{-r(T-t)}\phi(d_2)$, the terms involving $\phi(d_1)$ and $\phi(d_2)$ cancel out.
+This leaves the much simpler expression:
+$$\rho = (T-t) K e^{-r(T-t)} N(d_2)$$
+
+---
+
 ## Second and Third Order Greeks
 
 | Greek | Measures | Formula | Use Case |

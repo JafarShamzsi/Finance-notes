@@ -180,6 +180,49 @@ if __name__ == '__main__':
 
 ---
 
+## Interpreting Model Output
+
+When you fit a GARCH model using the `arch` library, the `summary()` method provides a wealth of information. Here is how to interpret the key parts of the parameters table:
+
+| Column | Meaning | What to Look For |
+|---|---|---|
+| **coef** | The estimated value for the parameter ($\omega, \alpha, \beta, \gamma$, etc.). | - $\alpha + \beta < 1$ for GARCH(1,1) for stationarity. <br> - For GJR-GARCH, $\alpha + \beta + \gamma/2 < 1$ is the stationarity condition. <br> - $\gamma > 0$ in GJR or $\gamma < 0$ in EGARCH confirms the leverage effect. |
+| **std err** | The standard error of the coefficient estimate. A measure of the estimate's uncertainty. | Smaller values are better, indicating a more precise estimate. |
+| **t** | The t-statistic, calculated as `coef / std err`. | A measure of how statistically significant the parameter is. |
+| **P>|t|** | The p-value associated with the t-statistic. | A p-value **< 0.05** (or < 0.01 for stricter tests) indicates that the parameter is statistically significant and should be kept in the model. If a parameter like $\alpha$ is not significant, a simpler ARCH or constant variance model might be better. |
+| **[0.025** | The lower bound of the 95% confidence interval for the coefficient. | The interval should not contain zero for a parameter to be considered significant. |
+| **0.975]** | The upper bound of the 95% confidence interval for the coefficient. | --- |
+
+**Example Analysis:**
+If a GJR-GARCH model shows a `gamma` coefficient of `0.08` with a p-value of `0.002`, you can conclude:
+1.  The leverage effect is present and statistically significant.
+2.  The impact of a negative shock on next-day variance is `0.08 * (return)^2` larger than a positive shock of the same magnitude.
+
+---
+
+## Understanding Multi-Step Forecasting
+
+The power of GARCH lies in its ability to forecast future variance. A one-step-ahead forecast is trivial from the model equation. For multi-step forecasts ($h > 1$), we iterate forward.
+
+For a GARCH(1,1) model, the forecast for the variance at time $t+h$, made at time $t$, is $E_t[\sigma_{t+h}^2]$.
+
+**Step 1: One-step-ahead forecast ($h=1$)**
+$$E_t[\sigma_{t+1}^2] = \sigma_{t+1}^2 = \omega + \alpha \epsilon_t^2 + \beta \sigma_t^2$$
+All terms on the right are known at time $t$.
+
+**Step 2: Two-steps-ahead forecast ($h=2$)**
+$$E_t[\sigma_{t+2}^2] = \omega + \alpha E_t[\epsilon_{t+1}^2] + \beta E_t[\sigma_{t+1}^2]$$
+We know $E_t[\sigma_{t+1}^2]$ from Step 1. The key is that $E_t[\epsilon_{t+1}^2] = E_t[\sigma_{t+1}^2 z_{t+1}^2] = E_t[\sigma_{t+1}^2] E_t[z_{t+1}^2] = E_t[\sigma_{t+1}^2] \times 1$.
+So, we can substitute:
+$$E_t[\sigma_{t+2}^2] = \omega + (\alpha + \beta) E_t[\sigma_{t+1}^2]$$
+
+**Step h: h-steps-ahead forecast**
+This process can be generalized. The h-step forecast recursively depends on the h-1 step forecast and will converge towards the long-run average variance, $\bar{\sigma}^2$.
+$$E_t[\sigma_{t+h}^2] - \bar{\sigma}^2 = (\alpha + \beta)^{h-1} (E_t[\sigma_{t+1}^2] - \bar{\sigma}^2)$$
+This shows how shocks to volatility decay over the forecast horizon. The speed of decay is governed by the persistence parameter, $\alpha + \beta$. A higher persistence means shocks last longer.
+
+---
+
 ## GARCH for Trading Applications
 
 ### 1. Volatility Forecasting for Options
