@@ -1,84 +1,60 @@
 # Correlation and Diversification
 
-**Diversification is the only free lunch in finance — but the lunch gets taken away precisely when you need it most. Correlations spike toward 1.0 in crises.**
+**Diversification** is often called the "only free lunch in finance." By combining assets that are not perfectly correlated, a quant can achieve a higher return per unit of risk (Sharpe Ratio) than any individual asset.
 
 ---
 
-## Correlation Measures
+## 1. Linear Correlation ($\rho$)
 
-| Measure | Type | Outlier Robust | Best For |
-|---|---|---|---|
-| **Pearson** | Linear | No | Normal data |
-| **Spearman** | Rank (monotonic) | Yes | Non-normal data |
-| **Kendall** | Concordance | Yes | Small samples |
+Pearson correlation measures the degree to which two assets move together.
+$$\rho_{X,Y} = \frac{Cov(X,Y)}{\sigma_X \sigma_Y}$$
 
-```python
-def rolling_correlation(series_a, series_b, windows=[21, 63, 252]):
-    result = pd.DataFrame(index=series_a.index)
-    for w in windows:
-        result[f'corr_{w}d'] = series_a.rolling(w).corr(series_b)
-    return result
-```
-
-## Correlation Breakdown in Crises
-
-| Event | Pre-Crisis Avg Corr | Crisis Corr |
-|---|---|---|
-| GFC (2008) | 0.35 | 0.85+ |
-| COVID Crash (2020) | 0.35 | 0.80+ |
-| Rate Shock (2022) | 0.25 | 0.65+ |
-
-**Why:** Margin calls force liquidation across all positions simultaneously.
-
-## Regime-Conditional Correlation
-
-```python
-def regime_correlation(returns_df, market_returns, threshold_pct=10):
-    stress_threshold = np.percentile(market_returns, threshold_pct)
-    stress_mask = market_returns <= stress_threshold
-    calm_mask = ~stress_mask
-
-    return {
-        'stress_corr': returns_df[stress_mask].corr(),
-        'calm_corr': returns_df[calm_mask].corr(),
-    }
-```
-
-## Diversification Ratio
-
-```
-DR = (Σ w_i × σ_i) / σ_portfolio
-
-DR = 1.0: No diversification benefit
-DR > 1.0: Diversification is working
-```
-
-```python
-def diversification_ratio(weights, cov_matrix):
-    vols = np.sqrt(np.diag(cov_matrix))
-    port_vol = np.sqrt(weights @ cov_matrix @ weights)
-    return (np.abs(weights) @ vols) / port_vol
-```
-
-## Risk Budgeting
-
-```python
-def risk_contributions(weights, cov_matrix):
-    port_vol = np.sqrt(weights @ cov_matrix @ weights)
-    marginal = cov_matrix @ weights / port_vol
-    return weights * marginal  # Each asset's risk contribution
-```
-
-## Building Robust Diversification
-
-1. **Different asset classes** — equities, bonds, commodities, FX
-2. **Different strategies** — momentum, mean reversion, carry, value
-3. **Different time horizons** — intraday, daily, weekly, monthly
-4. **Stress-test with crisis correlations** — not calm-period
-5. **Monitor correlation regime** — detect when diversification breaks down
-
-> **Key insight:** Value and Momentum are negatively correlated (~-0.40). Combining them is one of the most robust diversification strategies.
+- **+1.0:** Perfect positive correlation (No diversification).
+- **0.0:** No linear relationship (Excellent diversification).
+- **-1.0:** Perfect negative correlation (Hedging).
 
 ---
 
-**Related:** [[Risk Management MOC]] | [[Portfolio Optimization]] | [[Factor Models]] | [[Tail Risk and Black Swans]] | [[Value at Risk (VaR)]]
+## 2. The Power of Diversification
+
+The risk of a portfolio of $N$ assets is:
+$$\sigma_p^2 = \sum w_i^2 \sigma_i^2 + \sum_{i \neq j} w_i w_j \rho_{ij} \sigma_i \sigma_j$$
+
+**Key Insight:** As $N$ increases, the "Asset-Specific Risk" (idiosyncratic) is diversified away, leaving only the "Market Risk" (systematic).
+
+---
+
+## 3. The Correlation Breakdown (Crisis)
+
+In a market crash, **"all correlations go to 1."**
+- **The Problem:** Assets that look uncorrelated during normal times (e.g., Equities and High-Yield Bonds) tend to crash together during liquidity crises.
+- **Quant Mitigation:** Use [[Copulas]] to model "Tail Dependence" instead of just linear correlation.
+
+---
+
+## 4. Measuring Diversification Quality
+
+### A. Diversification Ratio (DR)
+$$\text{DR} = \frac{\sum w_i \sigma_i}{\sigma_p}$$
+- $\text{DR} > 1$ implies a diversification benefit.
+
+### B. Number of Effective Bets
+$$\text{Effective Bets} = \frac{(\sum \sigma_i)^2}{\sum \sum \rho_{ij} \sigma_i \sigma_j}$$
+- Tells you how many "independent" return streams you actually have.
+
+---
+
+## 5. Implementation for Quants
+
+- **Avoid Cluster Risk:** Don't just diversify by "Asset Name." Use [[Principal Component Analysis (PCA)]] to ensure your assets aren't all exposed to the same underlying factor (e.g., "The Fed Pivot").
+- **Dynamic Correlation:** Correlations are non-stationary. Use [[Kalman Filter]] or DCC-GARCH models to track how relationships change in real-time.
+
+---
+
+## Related Notes
+- [[Risk Management MOC]] — Broader safety context
+- [[Modern Portfolio Theory]] — The math of the Efficient Frontier
+- [[Copulas]] — Modeling dependency in the tails
+- [[Linear Algebra in Finance]] — Matrix operations for correlation
+- [[Factor Models]] — Decomposing assets into common drivers
+- [[Risk Parity]] — Allocating based on risk contribution

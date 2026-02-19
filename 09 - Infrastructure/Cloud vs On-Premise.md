@@ -1,27 +1,67 @@
-# Cloud vs On-Premise Infrastructure
+# Cloud vs. On-Premise Infrastructure
 
-When setting up a trading infrastructure, one of the key decisions is whether to use a cloud-based or on-premise solution. Each approach has its own set of pros and cons.
+Selecting the right environment for your trading stack is a fundamental decision that balances **latency**, **control**, and **cost**. Institutional quant firms typically use a hybrid approach, using on-premise hardware for execution and cloud for research.
 
-## Cloud-Based Infrastructure
+---
 
-- **Description:** Using a cloud provider, such as Amazon Web Services (AWS) or Google Cloud Platform (GCP), to host your trading infrastructure.
-- **Pros:**
-    - **Scalability:** Easily scale your infrastructure up or down as needed.
-    - **Cost-Effectiveness:** Pay only for the resources you use.
-    - **Ease of Use:** Cloud providers offer a wide range of services that make it easy to set up and manage your infrastructure.
-- **Cons:**
-    - **Latency:** Cloud-based solutions typically have higher latency than on-premise solutions.
-    - **Security:** Security can be a concern when using a public cloud.
+## 1. On-Premise (Exchange Co-location)
 
-## On-Premise Infrastructure
+Physical servers owned or leased by the firm, located inside the exchange's data center (see [[Co-location and Proximity]]).
 
-- **Description:** Hosting your own trading infrastructure in-house.
-- **Pros:**
-    - **Low Latency:** On-premise solutions can provide the lowest possible latency, especially when colocated with an exchange.
-    - **Security:** You have complete control over the security of your infrastructure.
-- **Cons:**
-    - **Cost:** On-premise solutions can be expensive to set up and maintain.
-    - **Scalability:** Scaling an on-premise solution can be difficult and time-consuming.
+| Factor | Detail |
+|-------|--------|
+| **Latency** | **Microseconds.** The fastest possible path to the matching engine. |
+| **Control** | Full control over hardware (CPU overclocking, FPGA, custom NICs). |
+| **Cost** | High Capex (buying hardware) and High Opex (rack space, cooling, cross-connects). |
+| **Best For** | HFT, Market Making, High-Frequency Stat Arb. |
 
-## Hybrid Approach
-A hybrid approach, which combines elements of both cloud-based and on-premise solutions, can be a good option for many trading firms. For example, you could use an on-premise server for latency-sensitive tasks, such as order execution, and a cloud-based solution for less latency-sensitive tasks, such as backtesting and data analysis.
+---
+
+## 2. Cloud Infrastructure (AWS, Azure, GCP)
+
+Virtual servers and services provided by major tech vendors.
+
+| Factor | Detail |
+|-------|--------|
+| **Latency** | **Milliseconds.** Variable and subject to "noisy neighbors" (jitter). |
+| **Scalability** | Spin up 1,000 servers for a backtest in seconds and shut them down when done. |
+| **Cost** | No Capex. Pay-as-you-go. Can be expensive for continuous heavy compute. |
+| **Best For** | ML Training, Large-scale Backtesting, Low-frequency strategies (Daily/Weekly). |
+
+---
+
+## 3. Comparison Matrix
+
+| Feature | On-Premise (Co-lo) | Public Cloud |
+|---------|-------------------|--------------|
+| **Deterministic Performance** | Excellent (fixed hardware). | Poor (hypervisor overhead). |
+| **Market Data Access** | Direct multicast feeds. | Usually via unicast proxy (delayed). |
+| **Security** | Maximum (Air-gapped possible). | High, but shared responsibility. |
+| **Time-to-Market** | Weeks/Months (shipping hardware). | Minutes (API call). |
+| **FPGA Support** | Native. | Limited (e.g., AWS F1). |
+
+---
+
+## 4. The Hybrid Quant Architecture
+
+Modern mid-to-large size quant funds typically build this "Best of Both Worlds" architecture:
+
+1.  **Execution Edge (On-Prem):** Small clusters of high-performance servers in NJ, Chicago, London, and Tokyo for low-latency order firing.
+2.  **Data Lake (Cloud/On-Prem):** Large-scale storage for decades of tick data.
+3.  **Research Engine (Cloud):** Using spot instances or GPU clusters to train deep learning models and run massive [[Walk-Forward Analysis]] simulations.
+
+---
+
+## 5. Connectivity Considerations
+
+Even if your strategy is in the cloud, you may need a **Leased Line** (Extranet) to the exchange to get a reliable market data feed, as the public internet is too unstable for production trading.
+
+---
+
+## Related Notes
+- [[Infrastructure MOC]] — System context
+- [[Co-location and Proximity]] — The on-premise extreme
+- [[Trading Servers]] — Hardware optimization
+- [[Connectivity]] — Networking the environment
+- [[Trading System Architecture]] — Designing for the environment
+- [[Backtesting Platforms and Frameworks]] — Cloud-based backtesting (QuantConnect)

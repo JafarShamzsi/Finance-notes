@@ -7,36 +7,35 @@
 ## High Priority — Add Next
 
 ### New Notes to Create
-- [x] **Greeks Deep Dive** — Full derivation of Delta, Gamma, Theta, Vega, Rho with Python implementations
-- [x] **Black-Scholes Model** — Dedicated note with derivation, assumptions, limitations, extensions
-- [x] **Volatility Surface Modeling** — SABR model, SVI parameterization, local vol vs stochastic vol
-- [x] **GARCH Models** — GARCH(1,1), EGARCH, GJR-GARCH for volatility forecasting
-- [x] **Copulas** — Dependency modeling beyond correlation, tail dependence
-- [x] **Signal Decay Analysis** — How to measure and monitor alpha decay in production
-- [x] **Risk Parity Deep Dive** — Bridgewater's All Weather, implementation details, leverage
-- [x] **Transaction Cost Models** — Almgren-Chriss detailed implementation, market impact estimation
-- [x] **Order Flow Analysis** — VPIN, order flow toxicity, information content of trades
+- [x] **Volatility Surface Modeling** — Local Vol (Dupire), Stochastic Vol (Heston), SVI/SABR parameterization
+- [x] **Market Impact Models** — Almgren-Chriss, temporary vs permanent impact, decay kernels
+- [x] **FX Trading** — G10 vs EM, Carry Trade, Uncovered Interest Parity, central bank intervention
+- [x] **Commodities** — Term structure (contango/backwardation), seasonality, storage costs
+- [x] **Hedging Strategies** — Delta-Gamma-Vega hedging, minimum variance hedging
+- [x] **Correlation and Copulas** — Tail dependence, rank correlation, Gaussian vs t-Copula
 
 ### Expand Existing Notes
-- [ ] **Supervised Learning** — Add more code examples, feature importance methods, purged CV
-- [ ] **Unsupervised Learning** — K-means for regime clustering, PCA for returns
-- [ ] **Reinforcement Learning** — DQN for portfolio management, policy gradient for execution
-- [ ] **Natural Language Processing (NLP)** — FinBERT implementation, SEC filing parsing, earnings call analysis
-- [ ] **Trend Following** — Expand with full implementation, managed futures context
-- [ ] **Breakout Strategies** — Expand with Donchian channels, ATR-based breakouts
-- [ ] **Options Strategies for Algos** — Expand with delta-neutral strategies, vol arb
-- [ ] **Sentiment-Based Strategies** — Expand with Twitter/Reddit sentiment pipeline
+- [x] **Value at Risk (VaR)** — Add Expected Shortfall (CVaR), Extreme Value Theory (EVT)
+- [x] **Order Book Dynamics** — Add OBI (Order Book Imbalance), micro-price, queue position
+- [x] **Backtesting Framework Design** — Event-driven engine architecture, latency simulation
+- [x] **ML and AI Expansion** — Supervised, Unsupervised, Deep Learning, and RL for Trading.
 
 ---
 
 ## Medium Priority — Build Out
 
+### Infrastructure Deep Dives
+- [ ] **Low-Latency Optimization** — Kernel bypass (DPDK), FPGA, CPU pinning, lock-free queues
+- [ ] **FIX Protocol** — Message types (NewOrderSingle, ExecutionReport), session layer
+- [ ] **Market Data Feeds** — L1 vs L2 vs L3 data, normalization, packet loss handling
+
 ### New Sections
-- [ ] **Fixed Income** — Bond math, yield curve, duration/convexity, rate models (Vasicek, CIR, HJM)
-- [ ] **Derivatives Pricing** — Binomial trees, finite difference, Monte Carlo pricing
-- [ ] **FX Trading** — Carry trade, PPP, interest rate parity, central bank analysis
-- [ ] **Commodities** — Roll yield, storage theory, seasonal patterns
-- [ ] **Event-Driven Strategies** — Earnings, M&A arb, index rebalancing, corporate actions
+- [x] **Fixed Income** — Expanded bond math, yield curve modeling (Nelson-Siegel), added rate models
+- [x] **Interest Rate Models** — Detailed note on Vasicek, CIR, Hull-White, HJM
+- [x] **Event-Driven Strategies** — Merger arb, index rebalancing, corporate actions
+- [x] **Derivatives Pricing** — Binomial trees, finite difference, Monte Carlo pricing
+- [x] **FX Trading** — Carry trade, PPP, interest rate parity, central bank analysis
+- [x] **Commodities** — Roll yield, storage theory, seasonal patterns
 
 ### Infrastructure Deep Dives
 - [ ] **kdb+/q** — The industry-standard time-series database

@@ -1,116 +1,78 @@
 # Stochastic Calculus
 
-The mathematical language of continuous-time finance. Essential for options pricing, risk modeling, and understanding market dynamics.
+Stochastic calculus is the mathematical foundation of continuous-time finance. It allows us to model assets that evolve randomly over time, providing the tools for derivatives pricing, risk management, and optimal execution.
 
 ---
 
-## Brownian Motion (Wiener Process)
+## 1. Brownian Motion (Wiener Process)
 
-A continuous-time random walk:
+A stochastic process $W_t$ is a standard Brownian motion if:
+1.  $W_0 = 0$.
+2.  It has continuous paths.
+3.  It has independent increments: $W_t - W_s \sim N(0, t-s)$ for $t > s$.
 
-```
-Properties:
-  W(0) = 0
-  W(t) - W(s) ~ N(0, t-s)   for t > s
-  Increments are independent
-  Paths are continuous but nowhere differentiable
-```
-
-```python
-def simulate_brownian_motion(T=1, N=1000, n_paths=5):
-    dt = T / N
-    dW = np.random.normal(0, np.sqrt(dt), (n_paths, N))
-    W = np.cumsum(dW, axis=1)
-    W = np.insert(W, 0, 0, axis=1)  # W(0) = 0
-    return W
-```
-
-## Geometric Brownian Motion (GBM)
-
-The standard model for stock prices:
-
-```
-dS = μ·S·dt + σ·S·dW
-
-Solution:
-S(t) = S(0) · exp((μ - σ²/2)·t + σ·W(t))
-
-Where:
-  S = stock price
-  μ = drift (expected return)
-  σ = volatility
-  W = Brownian motion
-```
-
-```python
-def simulate_gbm(S0, mu, sigma, T, N, n_paths=1000):
-    """
-    Simulate stock price paths using GBM.
-    """
-    dt = T / N
-    Z = np.random.standard_normal((n_paths, N))
-    paths = np.zeros((n_paths, N + 1))
-    paths[:, 0] = S0
-
-    for i in range(N):
-        paths[:, i+1] = paths[:, i] * np.exp(
-            (mu - 0.5 * sigma**2) * dt + sigma * np.sqrt(dt) * Z[:, i]
-        )
-    return paths
-```
-
-## Itô's Lemma
-
-The chain rule of stochastic calculus. If `f(S,t)` is a function of a stochastic process S:
-
-```
-df = (∂f/∂t + μS·∂f/∂S + ½σ²S²·∂²f/∂S²)dt + σS·∂f/∂S·dW
-```
-
-**Application:** Deriving Black-Scholes. Let `f = ln(S)`:
-```
-d(ln S) = (μ - σ²/2)dt + σ·dW
-```
-
-This shows that log prices follow arithmetic Brownian motion with drift `μ - σ²/2`.
-
-## Stochastic Differential Equations (SDEs)
-
-### Mean-Reverting (Ornstein-Uhlenbeck)
-```
-dX = θ(μ - X)dt + σdW
-
-Used for: [[Mean Reversion Strategies]], [[Pairs Trading]] spread modeling
-```
-
-### Cox-Ingersoll-Ross (CIR)
-```
-dr = κ(θ - r)dt + σ√r·dW
-
-Used for: Interest rate modeling (always positive)
-```
-
-### Heston Stochastic Volatility
-```
-dS = μ·S·dt + √v·S·dW₁
-dv = κ(θ - v)dt + σ_v·√v·dW₂
-
-Corr(dW₁, dW₂) = ρ
-
-Used for: Options pricing with volatility smile
-```
-
-## Connection to Options Pricing
-
-Black-Scholes equation (from Itô's lemma + no-arbitrage):
-```
-∂V/∂t + ½σ²S²·∂²V/∂S² + rS·∂V/∂S - rV = 0
-```
-
-This PDE, with boundary conditions, gives option prices.
-
-See [[Options Strategies for Algos]] for practical applications.
+**Properties for Quants:**
+- **Martingale:** $E[W_t | \mathcal{F}_s] = W_s$. The best guess for the future is the current value.
+- **Quadratic Variation:** $[W, W]_t = t$. Unlike smooth functions, the sum of squared increments of BM is non-zero. This is why we need Itô's Lemma.
 
 ---
 
-**Related:** [[Mathematics MOC]] | [[Monte Carlo Simulation]] | [[Options Strategies for Algos]] | [[Probability and Statistics for Trading]]
+## 2. Geometric Brownian Motion (GBM)
+
+The "Standard Model" for stock prices (Black-Scholes-Merton).
+
+$$dS_t = \mu S_t dt + \sigma S_t dW_t$$
+
+**Solution (via Itô's Lemma):**
+$$S_t = S_0 \exp\left( (\mu - \frac{1}{2}\sigma^2)t + \sigma W_t \right)$$
+
+- **Log-normal Distribution:** Prices $S_t$ are log-normal; log-returns $\ln(S_t/S_0)$ are normal.
+- **Drift ($\mu$):** The expected return.
+- **Volatility ($\sigma$):** The standard deviation of returns.
+
+---
+
+## 3. Itô's Lemma (The Chain Rule)
+
+If $X_t$ is an Itô process $dX_t = \mu_t dt + \sigma_t dW_t$, and $f(t, x)$ is a twice-differentiable function, then:
+
+$$df(t, X_t) = \left( \frac{\partial f}{\partial t} + \mu_t \frac{\partial f}{\partial x} + \frac{1}{2} \sigma_t^2 \frac{\partial^2 f}{\partial x^2} \right) dt + \sigma_t \frac{\partial f}{\partial x} dW_t$$
+
+**Why it matters:** In normal calculus, $df = f_t dt + f_x dx$. In stochastic calculus, the $(\frac{1}{2} \sigma^2 f_{xx}) dt$ term appears because $(dW_t)^2 = dt$. This is the "Convexity Adjustment."
+
+---
+
+## 4. Change of Measure (Girsanov Theorem)
+
+In derivatives pricing, we move from the **Physical Measure ($\mathbb{P}$)** to the **Risk-Neutral Measure ($\mathbb{Q}$)**.
+
+- **$\mathbb{P}$ (Real World):** Assets have an expected return $\mu$.
+- **$\mathbb{Q}$ (Risk-Neutral):** Assets have an expected return $r$ (the risk-free rate).
+
+Girsanov's Theorem allows us to "shift" the drift of a Brownian motion while keeping the same volatility, which is the core of the **Fundamental Theorem of Asset Pricing**.
+
+---
+
+## 5. Feynman-Kac Formula
+
+Provides a link between SDEs and Partial Differential Equations (PDEs).
+- The solution to a PDE (like Black-Scholes) can be represented as an expectation of an SDE (Monte Carlo pricing).
+
+---
+
+## 6. Stochastic Volatility & Jumps
+
+Standard GBM is often "too simple" for real markets.
+- **Heston Model:** Volatility is itself a mean-reverting stochastic process.
+- **Merton Jump-Diffusion:** Adds a Poisson process to account for sudden price crashes.
+  $$dS_t = \mu S_t dt + \sigma S_t dW_t + S_t dJ_t$$
+
+---
+
+## Related Notes
+- [[Mathematics MOC]] — Parent section
+- [[Black-Scholes Model]] — Direct application of GBM
+- [[Derivatives Pricing]] — No-arbitrage and measures
+- [[Monte Carlo Simulation]] — Numerical solution of SDEs
+- [[Interest Rate Models]] — SDEs for rates (Vasicek, CIR)
+- [[Volatility Surface Modeling]] — Beyond constant volatility

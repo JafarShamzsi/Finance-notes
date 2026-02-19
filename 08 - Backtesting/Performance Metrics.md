@@ -1,31 +1,91 @@
 # Performance Metrics
 
-Performance metrics are essential for evaluating the results of a backtest and comparing different trading strategies. It's important to look at a variety of metrics to get a complete picture of a strategy's performance.
+Evaluating a trading strategy requires more than just looking at the final profit. A quant must analyze the **risk-adjusted returns**, the **consistency** of the signal, and the **tails** of the return distribution.
 
-## Key Performance Metrics
+---
 
-### Sharpe Ratio
-- **Formula:** `(Mean of (Portfolio Return - Risk-Free Rate)) / Standard Deviation of (Portfolio Return - Risk-Free Rate))`
-- **Interpretation:** Measures the risk-adjusted return of a strategy. A higher Sharpe Ratio indicates a better risk-adjusted return. A common benchmark is a Sharpe Ratio greater than 1.0.
+## 1. Risk-Adjusted Returns
 
-### Sortino Ratio
-- **Formula:** `(Mean of (Portfolio Return - Risk-Free Rate)) / Standard Deviation of (Negative Portfolio Returns)`
-- **Interpretation:** Similar to the Sharpe Ratio, but it only considers downside volatility. This can be a more useful metric for investors who are more concerned with losses than with overall volatility.
+| Metric | Formula | Description |
+|--------|---------|-------------|
+| **Sharpe Ratio** | $\frac{R_p - R_f}{\sigma_p}$ | Reward per unit of total risk. Most common, but assumes normal returns. |
+| **Sortino Ratio** | $\frac{R_p - R_f}{\sigma_{down}}$ | Only penalizes downside volatility. Better for asymmetric strategies. |
+| **Information Ratio** | $\frac{\alpha}{\text{Tracking Error}}$ | Measures excess return relative to a benchmark. |
+| **Calmar Ratio** | $\frac{\text{Annual Return}}{\text{Max Drawdown}}$ | Reward relative to the worst-case historical loss. |
 
-### Calmar Ratio
-- **Formula:** `Compounded Annual Growth Rate / Maximum Drawdown`
-- **Interpretation:** Measures the return of a strategy relative to its maximum drawdown. A higher Calmar Ratio is better. This metric is particularly useful for evaluating the risk of large losses.
+---
 
-### Maximum Drawdown
-- **Definition:** The largest peak-to-trough decline in the value of a portfolio.
-- **Interpretation:** A measure of the worst-case loss that a strategy has experienced. This is a critical metric for risk management.
+## 2. Drawdown Metrics
 
-### Compounded Annual Growth Rate (CAGR)
-- **Formula:** `(Ending Value / Beginning Value)^(1 / Number of Years) - 1`
-- **Interpretation:** The annualized rate of return of an investment, assuming that the profits are reinvested.
+Drawdowns are the true test of a quant's psychological and financial resilience.
+- **Max Drawdown (MDD):** The largest peak-to-trough decline.
+- **Drawdown Duration:** The time spent "underwater" before hitting a new high.
+- **Ulcer Index:** Measures the depth and duration of drawdowns simultaneously.
 
-### Other Important Metrics
-- **Win/Loss Ratio:** The number of winning trades divided by the number of losing trades.
-- **Average Win/Average Loss:** The average profit of winning trades divided by the average loss of losing trades.
-- **Profit Factor:** Gross Profit / Gross Loss.
-- **Time in Market:** The percentage of time that the strategy has an open position in the market.
+---
+
+## 3. Trade-Level Statistics
+
+| Metric | Calculation | Goal |
+|--------|-------------|------|
+| **Win Rate** | $\frac{N_{winning}}{N_{total}}$ | Dependent on strategy type (Trend vs. Mean Rev). |
+| **Profit Factor** | $\frac{\text{Gross Profit}}{\text{Gross Loss}}$ | Should be $> 1.5$ for a robust strategy. |
+| **Avg Win / Avg Loss** | $\frac{\mu_{win}}{\mu_{loss}}$ | The "Payoff Ratio." |
+| **CPC Index** | $\text{Profit Factor} \times \text{Win Rate} \times \text{Payoff Ratio}$ | A composite score of trade quality. |
+
+---
+
+## 4. Signal Quality: Information Coefficient (IC)
+
+The **Information Coefficient** measures the correlation between the predicted return and the actual return.
+- **IC:** $\text{corr}(\hat{r}_{t+1}, r_{t+1})$.
+- **ICIR:** $\frac{\mu_{IC}}{\sigma_{IC}}$ (The "Information Coefficient Information Ratio") — measures signal stability.
+
+---
+
+## 5. Python Implementation: Basic Tearsheet
+
+```python
+import numpy as np
+
+def calculate_tearsheet(returns):
+    """
+    returns: pd.Series of daily returns
+    """
+    # Risk-Adjusted
+    sharpe = np.mean(returns) / np.std(returns) * np.sqrt(252)
+    
+    cumulative = (1 + returns).cumprod()
+    running_max = cumulative.cummax()
+    drawdown = (cumulative - running_max) / running_max
+    max_dd = drawdown.min()
+    
+    # Win Stats
+    win_rate = (returns > 0).mean()
+    profit_factor = abs(returns[returns > 0].sum() / returns[returns < 0].sum())
+    
+    return {
+        'sharpe': round(sharpe, 2),
+        'max_dd': round(max_dd, 4),
+        'win_rate': round(win_rate, 2),
+        'profit_factor': round(profit_factor, 2)
+    }
+```
+
+---
+
+## 6. Regulatory Metrics (VaR)
+
+- **Value at Risk (VaR):** The expected loss at a certain confidence level (e.g., 95% 1-day VaR).
+- **Expected Shortfall (CVaR):** The average loss *given* that the VaR threshold has been breached.
+- See [[Value at Risk (VaR)]] for details.
+
+---
+
+## Related Notes
+- [[Backtesting MOC]] — Where metrics are generated
+- [[Value at Risk (VaR)]] — Risk-specific metrics
+- [[Alpha Research]] — Measuring signal IC
+- [[Walk-Forward Analysis]] — Evaluating OOS performance
+- [[Drawdown Management]] — How to handle the metrics
+- [[Performance Attribution]] — Decomposing the returns

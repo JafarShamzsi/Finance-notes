@@ -1,87 +1,65 @@
 # Mathematics — Map of Content
 
-> The mathematical foundations that underpin every quantitative trading strategy.
+> "In finance, math is the language of risk and the engine of alpha."
+
+Quantitative finance is built on several mathematical pillars. This map organizes the vault's mathematical resources from foundational probability to advanced stochastic modeling.
 
 ---
 
-## Core Areas
+## 1. Probability & Statistics
 
-### Probability & Statistics → [[Probability and Statistics for Trading]]
-- Distributions (Normal, Log-Normal, Fat-Tailed)
-- Hypothesis testing for strategy validation
-- Bayesian inference for dynamic models
-- Regression analysis
-
-### Time Series Analysis → [[Time Series Analysis]]
-- Stationarity and unit root tests
-- ARIMA, GARCH models
-- Cointegration (Engle-Granger, Johansen)
-- Regime switching models
-
-### Stochastic Calculus → [[Stochastic Calculus]]
-- Brownian motion and Wiener process
-- Itô's lemma
-- Geometric Brownian Motion (GBM)
-- Stochastic differential equations
-- Black-Scholes derivation
-
-### Linear Algebra → [[Linear Algebra in Finance]]
-- Covariance matrices
-- Principal Component Analysis (PCA)
-- Matrix operations for portfolio optimization
-- Eigenvalue decomposition
-
-### Optimization → [[Optimization Methods]]
-- Convex optimization (portfolio construction)
-- Gradient descent (ML model training)
-- Dynamic programming
-- Genetic algorithms for strategy optimization
-
-### Simulation → [[Monte Carlo Simulation]]
-- Random number generation
-- Path simulation for derivatives pricing
-- Risk estimation via simulation
-- Bootstrap methods
-
-### Filtering → [[Kalman Filter]]
-- State estimation from noisy observations
-- Dynamic hedge ratios
-- Pairs trading spread estimation
-
-### Cointegration → [[Cointegration]]
-- Engle-Granger two-step test
-- Johansen multivariate test
-- Half-life of mean reversion
-- Foundation for [[Statistical Arbitrage]] and [[Pairs Trading]]
-
-### Regime Detection → [[Regime Detection]]
-- Hidden Markov Models (HMM)
-- Change-point detection (CUSUM, PELT)
-- Strategy adaptation by market regime
-
-## Quick Reference: Key Formulas
-
-### Returns
-```
-Simple Return:      R = (P_t - P_{t-1}) / P_{t-1}
-Log Return:         r = ln(P_t / P_{t-1})
-Annualized Return:  R_a = (1 + R_daily)^252 - 1
-```
-
-### Risk
-```
-Volatility:         σ = std(returns) × √252
-Sharpe Ratio:       SR = (R - Rf) / σ
-Sortino Ratio:      So = (R - Rf) / σ_downside
-Max Drawdown:       MDD = max(peak - trough) / peak
-```
-
-### Correlation
-```
-Correlation:        ρ = Cov(X,Y) / (σ_X × σ_Y)
-Beta:               β = Cov(R_i, R_m) / Var(R_m)
-```
+The foundation of decision-making under uncertainty.
+- [[Probability and Statistics for Trading]] — Distributions, testing, and measures.
+- [[Cointegration]] — The math of long-term relationships.
+- [[Copulas]] — Modeling dependency in the tails.
+- [[Bayesian Portfolio Optimization]] — (To be created) Updating beliefs.
 
 ---
 
-**Related:** [[Trading Algorithms Master Index]] | [[Strategies MOC]] | [[Risk Management MOC]] | [[Backtesting MOC]]
+## 2. Calculus & Stochastic Processes
+
+The math of things that move and change randomly over time.
+- [[Stochastic Calculus]] — Ito's Lemma, Brownian Motion, and SDEs.
+- [[Black-Scholes Model]] — The derivation of derivatives.
+- [[Volatility Surface Modeling]] — Modeling the smile and skew.
+- [[Interest Rate Models]] — SDEs for the yield curve.
+
+---
+
+## 3. Linear Algebra
+
+The math of matrices, essential for multi-asset portfolios.
+- [[Linear Algebra in Finance]] — Covariance, PCA, and SVD.
+- [[Factor Models]] — Decomposing returns into drivers.
+- [[Portfolio Optimization]] — Matrix inversion and quadratic forms.
+
+---
+
+## 4. Time Series Analysis & Filtering
+
+Analyzing data that is ordered in time.
+- [[Time Series Analysis]] — Stationarity, ARIMA, and Autocorrelation.
+- [[GARCH Models]] — Modeling volatility clustering.
+- [[Kalman Filter]] — Recursive state estimation.
+- [[Regime Detection]] — Identifying hidden market states (HMM).
+
+---
+
+## 5. Numerical Methods & Optimization
+
+Finding the "best" solution when an analytical one doesn't exist.
+- [[Monte Carlo Simulation]] — Path simulation and pricing.
+- [[Optimization Methods]] — Convex optimization and solvers.
+- [[Derivatives Pricing]] — Numerical trees and finite differences.
+
+---
+
+## 6. Machine Learning Math
+
+- [[ML and AI MOC]] — Neural networks and deep learning.
+- [[Supervised Learning]] — Classification and regression.
+- [[Unsupervised Learning]] — Clustering and dimensionality reduction.
+
+---
+
+**Related:** [[Trading Algorithms Master Index]] | [[Strategies MOC]] | [[Risk Management MOC]]

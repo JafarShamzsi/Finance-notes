@@ -1,46 +1,67 @@
 # Market Microstructure — Map of Content
 
-> How markets actually work at the mechanical level. Understanding microstructure separates profitable algos from money-losing ones.
+> **Market Microstructure** is the study of the processes and outcomes of exchanging assets under a specific set of rules. In simple terms: it is the study of how "the plumbing" of the financial system works.
+
+For a quant, microstructure is where the battle for execution and short-term alpha is won or lost.
 
 ---
 
-## Core Topics
-- [[Order Book Dynamics]] — How buy/sell orders are organized and matched
-- [[Bid-Ask Spread]] — The cost of immediacy
-- [[Price Discovery]] — How markets find the "right" price
-- [[Market Impact]] — How your orders move prices
-- [[Liquidity]] — How easily you can trade without moving prices
-- [[Tick Data and Trade Data]] — The finest granularity of market data
+## 1. The Building Blocks (Mechanics)
 
-## Key Concepts
-
-### Information Asymmetry
-Some traders know more than others. The spread exists partly to compensate market makers for trading against informed traders.
-
-### Price Formation
-```
-Trade → Information incorporated → New price → New quotes
-         ↑                                        ↓
-         └────────── Feedback loop ───────────────┘
-```
-
-### Market Quality Metrics
-| Metric | Measures | Good Value |
-|---|---|---|
-| Spread | Cost of trading | Tight |
-| Depth | Size available at best prices | Deep |
-| Resilience | Recovery speed after large trade | Fast |
-| Volatility | Price uncertainty | Moderate |
-
-## Theoretical Models
-
-| Model | Key Insight |
-|---|---|
-| **Kyle (1985)** | Informed trader's profit = f(market depth) |
-| **Glosten-Milgrom (1985)** | Spread = f(adverse selection probability) |
-| **Avellaneda-Stoikov (2008)** | Optimal market making quotes |
-| **Almgren-Chriss (2000)** | Optimal execution with market impact |
+Understanding the atomic level of the market.
+- [[Order Book Dynamics]] — The Central Limit Order Book (CLOB).
+- [[Bid-Ask Spread]] — The cost of liquidity.
+- [[Tick Data and Trade Data]] — The raw material of microstructure.
+- [[Order Types and Execution]] — How we interact with the book.
 
 ---
 
-**Related:** [[Trading Algorithms Master Index]] | [[Market Making Strategies]] | [[High-Frequency Trading]] | [[Execution MOC]]
+## 2. Market Outcomes & Metrics
+
+How we measure the quality and state of the market.
+- [[Liquidity]] — Tightness, depth, and resilience.
+- [[Price Discovery]] — How news becomes price.
+- [[Market Impact]] — The trace we leave in the market.
+- [[Price Volatility]] — Intraday price risk.
+
+---
+
+## 3. The Players & Their Strategies
+
+Who is in the market and what are they doing?
+- [[Market Participants]] — Informed vs. Uninformed flow.
+- [[Market Making Strategies]] — Providing liquidity for profit.
+- [[High-Frequency Trading]] — The speed of microstructure.
+- [[Order Flow Analysis]] — Detecting toxicity and informed trading.
+
+---
+
+## 4. Execution & Optimization
+
+Applying microstructure theory to real-world trading.
+- [[Execution MOC]] — Managing the trade lifecycle.
+- [[Smart Order Routing]] — Navigating fragmented venues.
+- [[Transaction Cost Analysis (TCA)]] — Auditing the plumbing.
+- [[Maker-Taker Fee Model]] — The economics of liquidity provision.
+
+---
+
+## 5. Theoretical Frameworks (Foundations)
+
+Seminal models that define the field.
+- **Inventory Models:** How market makers manage risk (e.g., Avellaneda-Stoikov).
+- **Information Models:** How asymmetry creates spreads (e.g., Kyle, Glosten-Milgrom).
+- **Market Impact Models:** Predicting price moves (e.g., Almgren-Chriss).
+
+---
+
+## 6. Regulatory Context
+
+The rules that govern the plumbing.
+- [[Regulation and Compliance MOC]] — The legal framework.
+- [[Reg NMS]] — The US mandate for fairness and efficiency.
+- [[MiFID II]] — The European standard for transparency.
+
+---
+
+**Related:** [[Trading Algorithms Master Index]] | [[Strategies MOC]] | [[Data Engineering MOC]]

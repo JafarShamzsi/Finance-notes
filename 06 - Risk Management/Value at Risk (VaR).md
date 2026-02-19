@@ -111,6 +111,40 @@ CVaR is a **coherent risk measure** (VaR is not). Basel III requires banks to us
 4. **Confidence level arbitrary** — 95% vs 99% gives very different pictures
 5. **Horizon dependent** — √t scaling assumes independent returns
 
+## 4. Extreme Value Theory (EVT) (Peaks Over Threshold)
+
+Standard historical VaR is limited by the sample size. EVT fits a distribution (Generalized Pareto Distribution - GPD) to the *tail* of the data only, allowing for more accurate estimation of extreme events (e.g., 99.9% VaR).
+
+$$F_u(y) = P(X - u \le y | X > u) \approx G_{\xi, \beta}(y)$$
+
+Where $\xi$ is the tail index (shape parameter). If $\xi > 0$, the distribution has fat tails (Frechet).
+
+---
+
+## 5. Cornish-Fisher Expansion (Modified VaR)
+
+Adjusts the parametric Normal VaR for **Skewness ($S$)** and **Kurtosis ($K$)**.
+- Assets with negative skew and high kurtosis have higher Modified VaR than Normal VaR.
+
+$$z_{CF} = z_{\alpha} + \frac{1}{6}(z_{\alpha}^2 - 1)S + \frac{1}{24}(z_{\alpha}^3 - 3z_{\alpha})K - \frac{1}{36}(2z_{\alpha}^3 - 5z_{\alpha})S^2$$
+
+Then: $\text{mVaR} = -(\mu + z_{CF} \cdot \sigma)$
+
+---
+
+## Component VaR (Risk Budgeting)
+
+Decomposes the portfolio VaR into contributions from each asset.
+- **Marginal VaR ($\Delta$VaR):** The change in VaR for a $1 increase in position size.
+- **Component VaR (CVaR):** Position Size $\times$ Marginal VaR.
+- **Property:** Sum of Component VaRs = Total Portfolio VaR (Euler's Theorem).
+
+$$ \text{MVaR}_i = \frac{\partial \text{VaR}_p}{\partial w_i} = z_{\alpha} \frac{\text{Cov}(r_i, r_p)}{\sigma_p} $$
+
+This tells a risk manager: "If we sell asset $i$, how much does our risk decrease?"
+
+---
+
 ## Basel Requirements
 
 | Framework | Risk Measure | Confidence | Horizon |

@@ -1,72 +1,67 @@
 # Market Data Sources
 
-Comprehensive guide to obtaining market data for algorithmic trading research and live systems.
+Selecting the right data source is a tradeoff between **latency**, **accuracy**, **history depth**, and **cost**. A quant needs different sources for backtesting (long history) vs. live trading (low latency).
 
 ---
 
-## Free Data Sources
+## 1. Professional Data Terminals
 
-| Source | Data Type | Coverage | API | Limits |
-|---|---|---|---|---|
-| **Yahoo Finance** | EOD OHLCV, fundamentals | Global equities | `yfinance` | Unofficial, can break |
-| **Alpha Vantage** | Intraday (1min+), FX, crypto | US equities, global FX | REST, free key | 5-25 calls/min |
-| **FRED** | Economic data | US macro | `fredapi` | Generous |
-| **Quandl (free tier)** | EOD, some alt data | US equities | `quandl` | Limited datasets |
-| **IEX Cloud (free)** | EOD, basic intraday | US equities | REST | 50K credits/mo |
-| **Binance/Exchange APIs** | Full tick, orderbook | Crypto | Websocket + REST | Rate limits |
-| **SEC EDGAR** | Filings (10-K, 10-Q, 13-F) | US companies | REST | Generous |
-
-## Paid Data Sources
-
-| Source | Data Type | Cost | Best For |
-|---|---|---|---|
-| **Polygon.io** | Tick-level, real-time | $99-199/mo | Serious retail algo |
-| **Nasdaq Data Link** | EOD, fundamentals, alt | $50-500/mo | Research |
-| **Bloomberg Terminal** | Everything | ~$24K/year | Institutional |
-| **Refinitiv/LSEG** | Everything | ~$22K/year | Institutional |
-| **Norgate Data** | Clean EOD + survivorship-free | $50-150/mo | Backtesting |
-| **QuantConnect** | Built-in data + compute | Free-$80/mo | Strategy platform |
-| **Databento** | Tick data, futures | Pay per use | HFT research |
-
-## Python Examples
-
-```python
-# Yahoo Finance (free, unreliable)
-import yfinance as yf
-data = yf.download('AAPL', start='2020-01-01', end='2024-01-01')
-
-# Alpha Vantage
-from alpha_vantage.timeseries import TimeSeries
-ts = TimeSeries(key='YOUR_KEY')
-data, meta = ts.get_intraday('AAPL', interval='5min', outputsize='full')
-
-# Polygon.io
-import requests
-url = "https://api.polygon.io/v2/aggs/ticker/AAPL/range/1/minute/2024-01-15/2024-01-15"
-resp = requests.get(url, params={'apiKey': 'YOUR_KEY'})
-
-# FRED (economic data)
-from fredapi import Fred
-fred = Fred(api_key='YOUR_KEY')
-gdp = fred.get_series('GDP')
-unemployment = fred.get_series('UNRATE')
-fed_funds = fred.get_series('FEDFUNDS')
-
-# Crypto via CCXT
-import ccxt
-exchange = ccxt.binance()
-ohlcv = exchange.fetch_ohlcv('BTC/USDT', '1h', limit=1000)
-```
-
-## Data Quality Checklist
-
-- [ ] Check for survivorship bias → [[Survivorship Bias]]
-- [ ] Handle stock splits and dividends (use adjusted prices)
-- [ ] Check for gaps and missing data → [[Data Cleaning and Preprocessing]]
-- [ ] Verify timezone consistency
-- [ ] Check for look-ahead bias in point-in-time data
-- [ ] Validate against known prices (spot check)
+Used by J.P. Morgan, Bloomberg, and top-tier hedge funds.
+- **Bloomberg Terminal:** The industry standard. Unmatched for fundamentals, news, and fixed-income data.
+- **Refinitiv (Eikon/LSEG):** Bloomberg's main competitor. Strong in FX and macro data.
+- **FactSet:** Excellent for equity research and portfolio attribution.
 
 ---
 
-**Related:** [[Data Engineering MOC]] | [[Alternative Data]] | [[Data Cleaning and Preprocessing]] | [[Tick Data and Trade Data]] | [[Survivorship Bias]]
+## 2. API-First Data Vendors (Quant Favorites)
+
+| Vendor | Best For | Data Resolution |
+|--------|----------|-----------------|
+| **Polygon.io** | US Equities & Options. | Tick-level, Real-time & Historical. |
+| **Nasdaq Data Link** | Institutional Alternative Data. | EOD, Fundamental, and specialized. |
+| **IEX Cloud** | US Equities (Low cost). | Intraday & EOD. |
+| **Alpha Vantage** | Multi-asset (Retail/Hobbyist). | 1-min intervals. |
+| **Databento** | HFT-grade Futures & Equities. | Nanosecond tick-by-tick. |
+
+---
+
+## 3. Backtesting Data (Survivorship-Bias Free)
+
+For serious backtesting, you cannot use "Current S&P 500" lists.
+- **Norgate Data:** The "Gold Standard" for retail/pro quants. Provides clean, adjusted, survivorship-bias-free data for US/AU/CA markets.
+- **CRSP (Chicago):** The academic standard for US historical equity data.
+
+---
+
+## 4. Crypto Data Sources
+
+- **CCXT Library:** A Python library that connects to 100+ exchanges (Binance, Coinbase, Kraken) with a unified API.
+- **CoinMetrics / Glassnode:** Institutional-grade on-chain data (Wallet flows, Hash rates).
+- **Kaiko:** High-quality tick data for centralized and decentralized exchanges.
+
+---
+
+## 5. Economic & Macro Data
+
+- **FRED (St. Louis Fed):** 800,000+ free economic time series (GDP, CPI, Unemployment).
+- **EDGAR (SEC):** Raw corporate filings (10-K, 10-Q) for [[Natural Language Processing (NLP)|NLP analysis]].
+
+---
+
+## 6. Data Quality Checklist
+
+Before using a new source, verify:
+- [ ] **Adjustments:** Are prices adjusted for stock splits and dividends?
+- [ ] **Point-in-Time:** Does the database reflect what was known *at that moment*?
+- [ ] **Gaps:** Are there missing minutes or days in the middle of the history?
+- [ ] **Timestamps:** Are timestamps in UTC or local exchange time?
+
+---
+
+## Related Notes
+- [[Data Engineering MOC]] — Managing the ingested data
+- [[Alternative Data]] — Beyond price/volume
+- [[Tick Data and Trade Data]] — Nature of the data resolved
+- [[Survivorship Bias]] — Why the source matters
+- [[Database Design for Trading]] — Storing the data
+- [[Python Code MOC]] — Using `yfinance` and `ccxt`

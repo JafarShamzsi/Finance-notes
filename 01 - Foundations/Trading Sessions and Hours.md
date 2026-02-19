@@ -1,69 +1,60 @@
 # Trading Sessions and Hours
 
-Timing matters enormously in algorithmic trading. Volume, volatility, and spread patterns change dramatically throughout the day.
+The financial markets never truly sleep, but liquidity and volatility are highly concentrated in specific "windows." For a quant, understanding the global "Market Clock" is critical for execution timing and signal validation.
 
 ---
 
-## US Equity Sessions
+## 1. Global Equity Session Map (Eastern Time - ET)
 
-| Session | Time (ET) | Characteristics |
-|---|---|---|
-| Pre-market | 04:00 - 09:30 | Low volume, wide spreads, earnings reactions |
-| **Regular** | **09:30 - 16:00** | **Primary session, highest liquidity** |
-| Post-market | 16:00 - 20:00 | Low volume, earnings reactions |
-
-### Intraday Patterns (U-Shape)
-
-```
-Volume/Volatility
-    ▐█▌                                    ▐█▌
-    ▐██▌                                  ▐██▌
-    ▐███▌                                ▐███▌
-    ▐████▌▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▐████▌
-    9:30  10:00  11:00  12:00  1:00  2:00  3:00  4:00
-    ←Open                  Lunch          Close→
-```
-
-- **First 30 min:** Highest volume, overnight news absorption, gap fills
-- **Midday (11:30-14:00):** Lowest volume, tightest ranges ("lunchtime lull")
-- **Last hour (15:00-16:00):** Volume surges, institutional rebalancing, MOC orders
-- **Last 15 min:** Extremely high volume — closing auction
-
-### Algo Implications
-- [[Mean Reversion Strategies]] work better at open (overreactions)
-- [[Momentum Strategies]] often fire mid-morning (10:00-11:00)
-- Execution algos ([[VWAP Algorithm]]) must model this U-shape
-- Avoid trading during lunch (high spread, low fill rates)
-
-## Global Sessions
-
-| Market | Local Time | ET Equivalent |
-|---|---|---|
-| Tokyo (TSE) | 09:00-15:00 JST | 19:00-01:00 ET |
-| London (LSE) | 08:00-16:30 GMT | 03:00-11:30 ET |
-| New York (NYSE) | 09:30-16:00 ET | — |
-| Sydney (ASX) | 10:00-16:00 AEST | 18:00-00:00 ET |
-
-### Session Overlaps
-- **London-NY overlap (08:00-11:30 ET):** Highest FX volume globally
-- **Tokyo-London overlap:** Limited but important for Asian-European flow
-
-## Key Dates and Events
-
-| Event | Impact | Strategy |
-|---|---|---|
-| **FOMC Meetings** (8x/year) | Massive volatility | Reduce size or trade the reaction |
-| **NFP / Jobs Report** (monthly, 1st Fri) | FX, bonds, equities spike | News-based strategies |
-| **Earnings Season** (quarterly) | Individual stock vol spikes | Event-driven strategies |
-| **Options Expiration** (monthly/weekly Fri) | Pin risk, gamma exposure | Adjust positions |
-| **Index Rebalancing** (quarterly) | Forced buying/selling known stocks | Front-run/provide liquidity |
-| **Holidays** | Low volume, erratic behavior | Reduce or pause trading |
-
-## Crypto Markets
-- **24/7/365** — no sessions, no holidays
-- Weekend volatility can be extreme with thin liquidity
-- Asian session tends to set trends, US session amplifies
+| Market | Session Name | Hours (ET) | Characteristics |
+|--------|--------------|------------|-----------------|
+| **New York** | Regular Trading | 09:30 - 16:00 | Highest volume for US Equities. |
+| **New York** | Pre/Post-Market | 04:00 - 20:00 | Wide spreads, reaction to earnings. |
+| **London** | Regular Trading | 03:00 - 11:30 | Dominates global FX and EU Equities. |
+| **Tokyo** | Regular Trading | 19:00 - 01:00 | Primary Asian liquidity hub. |
+| **Sydney** | Regular Trading | 18:00 - 00:00 | First to open globally. |
 
 ---
 
-**Related:** [[Financial Markets Overview]] | [[VWAP Algorithm]] | [[Liquidity]] | [[Bid-Ask Spread]]
+## 2. The Intraday "U-Shape"
+
+Empirical studies show that volume and volatility typically follow a U-shaped distribution throughout the day:
+- **The Open (9:30 - 10:30 AM):** High volatility as the market incorporates overnight news. Excellent for [[Mean Reversion Strategies]].
+- **The Lull (11:30 AM - 2:00 PM):** "Lunchtime in NY." Low volume, tightest spreads. Best for passive execution.
+- **The Close (3:00 - 4:00 PM):** High volume surge as institutions rebalance and the "MOC" (Market on Close) orders are matched.
+
+---
+
+## 3. Session Overlaps: The Liquidity Peaks
+
+The most active times in the world are when two major regions are open simultaneously:
+- **London/NY Overlap (8:00 AM - 11:30 AM ET):** The highest liquidity period for global markets, especially for **EUR/USD** and **Gold**.
+- **Tokyo/London Overlap (3:00 AM - 4:00 AM ET):** Active for Yen crosses.
+
+---
+
+## 4. Market Auctions
+
+Most exchanges use a specific mechanism to set the day's first and last price:
+- **Opening Auction:** A single batch trade that clears all accumulated orders from the overnight session.
+- **Closing Auction:** The most significant event of the day. Sets the "NAV" for mutual funds.
+
+**Quant Tip:** Strategies that trade the "Closing Auction" often focus on liquidity provision to passive index funds.
+
+---
+
+## 5. Holidays and Early Closings
+
+- **Thin Markets:** Volume drops significantly before major holidays (e.g., day before Thanksgiving).
+- **Erratic Behavior:** Without institutional presence, retail-driven moves can be more erratic.
+- **Backtesting Tip:** Ensure your backtester uses a "Trading Calendar" (e.g., `pandas_market_calendars`) to avoid trading on weekends or holidays.
+
+---
+
+## Related Notes
+- [[Financial Markets Overview]] — Broader market context
+- [[VWAP Algorithm]] — Modeling the intraday volume
+- [[Liquidity]] — Session-dependent liquidity
+- [[Bid-Ask Spread]] — How spreads change throughout the day
+- [[Order Types and Execution]] — MOO and MOC orders
+- [[Macro Economics]] — Scheduled data release times

@@ -1,63 +1,55 @@
 # Risk Management — Map of Content
 
-> Risk management is the only thing that keeps you in the game long enough for your edge to play out. Without it, even the best alpha is worthless.
+> "Risk management is not about avoiding risk, it is about knowing which risks you are taking and being compensated for them."
+
+In quantitative trading, risk management is what prevents a single "Black Swan" event from bankrupting the firm. It is the most important component of any production system.
 
 ---
 
-## Risk Taxonomy
+## 1. Risk Measurement (The Yardstick)
 
-```
-                         RISK
-                          |
-          +---------------+---------------+
-          |               |               |
-     Market Risk    Operational Risk  Liquidity Risk
-          |               |               |
-    +-----+-----+    +---+---+      +----+----+
-    |     |     |    |       |      |         |
-  Price  Vol  Corr  Tech  Human   Funding  Market
-  Risk   Risk Risk  Fail  Error   Liq.     Liq.
-```
-
-## Key Formulas Quick Reference
-
-```
-VaR (Parametric):    VaR = μ - z_α × σ × √t
-Expected Shortfall:  ES = E[L | L > VaR]
-Kelly Fraction:      f* = (p × b - q) / b
-Position Size:       N = (Capital × Risk%) / (Entry - Stop)
-Sharpe Ratio:        SR = (R - Rf) / σ
-Max Drawdown:        MDD = max(peak - trough) / peak
-```
-
-## All Risk Management Notes
-
-### Position Management
-- [[Position Sizing]] — How much to risk per trade
-- [[Kelly Criterion]] — Optimal bet sizing from information theory
-- [[Stop Loss Strategies]] — When and how to exit losing trades
-
-### Portfolio Risk
-- [[Value at Risk (VaR)]] — Quantifying downside exposure
-- [[Drawdown Management]] — Circuit breakers and equity curve trading
-- [[Correlation and Diversification]] — Why diversification fails in crises
-- [[Tail Risk and Black Swans]] — Fat tails, extreme events, and protection
-
-### Risk Metrics
-- [[Performance Metrics]] — Sharpe, Sortino, Calmar, and more
-
-## Risk Limits Framework (Institutional)
-
-| Limit Type | Example | Frequency |
-|---|---|---|
-| **VaR Limit** | Portfolio VaR < 2% of NAV | Daily |
-| **Position Limit** | Max 5% of NAV per name | Per trade |
-| **Sector Limit** | Max 25% in any sector | Daily |
-| **Drawdown Limit** | Halt at -10% from HWM | Real-time |
-| **Daily Loss Limit** | Stop trading at -2% daily | Intraday |
-| **Gross Exposure** | Max 200% gross | Real-time |
-| **Net Exposure** | Between -20% and +20% | Real-time |
+How do we quantify the danger?
+- [[Value at Risk (VaR)]] — The baseline threshold loss.
+- **Expected Shortfall (CVaR):** The average loss in the tail.
+- [[Correlation and Diversification]] — How risks aggregate.
+- [[Performance Metrics]] — Sharpe, Sortino, and Drawdown.
 
 ---
 
-**Related:** [[Trading Algorithms Master Index]] | [[Strategies MOC]] | [[Backtesting MOC]] | [[Performance Metrics]] | [[Portfolio Management MOC]]
+## 2. Risk Mitigation & Controls (The Brakes)
+
+How do we limit the damage?
+- [[Position Sizing]] — The most powerful risk tool.
+- [[Kelly Criterion]] — Optimal bet sizing for growth and survival.
+- [[Stop Loss Strategies]] — Hard exits for failing trades.
+- [[Drawdown Management]] — Limiting peak-to-trough equity erosion.
+- [[Hedging Strategies]] — Offsetting specific risk factors (Delta, Gamma, Vega).
+
+---
+
+## 3. Operational & Systemic Risk
+
+Risks beyond the market price.
+- [[Tail Risk and Black Swans]] — Preparing for the 1-in-100-year event.
+- **Kill Switches:** Automated system shutdowns (see [[Monitoring and Alerting]]).
+- **Fat-Finger Limits:** Preventing catastrophic input errors.
+- **Model Risk:** The danger of using a flawed formula or overfitted backtest (see [[Overfitting]]).
+
+---
+
+## 4. Portfolio-Level Risk
+
+- [[Portfolio Optimization]] — Minimizing risk for a target return.
+- [[Factor Models]] — Identifying latent risk exposures (e.g., being too "Long Tech").
+- [[Risk Parity]] — Balancing risk contribution instead of capital.
+
+---
+
+## 5. Regulatory Risk
+
+- [[Regulation and Compliance MOC]] — Legal requirements.
+- **Capital Adequacy:** Ensuring you have enough cash to cover margin calls.
+
+---
+
+**Related:** [[Trading Algorithms Master Index]] | [[Mathematics MOC]] | [[Strategies MOC]]

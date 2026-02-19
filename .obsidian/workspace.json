@@ -4,31 +4,31 @@
     "type": "split",
     "children": [
       {
-        "id": "5cd427056336edf0",
+        "id": "871eee80f7e300f4",
         "type": "tabs",
         "children": [
           {
-            "id": "c0385419d1285cd5",
+            "id": "452d5fc45b1d1024",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "00 - MOC/Trading Algorithms Master Index.md",
+                "file": "08 - Backtesting/Monte Carlo Backtesting.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Trading Algorithms Master Index"
+              "title": "Monte Carlo Backtesting"
             }
           }
         ]
       },
       {
-        "id": "871eee80f7e300f4",
+        "id": "c2ffa0d018e962ce",
         "type": "tabs",
         "children": [
           {
-            "id": "2c7eb55f907b4bd7",
+            "id": "0c8685c9551eecd8",
             "type": "leaf",
             "pinned": true,
             "state": {
@@ -216,34 +216,34 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "2c7eb55f907b4bd7",
+  "active": "0c8685c9551eecd8",
   "lastOpenFiles": [
+    "08 - Backtesting/Monte Carlo Backtesting.md",
     "00 - MOC/Trading Algorithms Master Index.md",
+    "10 - Portfolio Management/Bayesian Portfolio Optimization.md",
+    "11 - ML and AI/Feature Selection and Importance.md",
+    "11 - ML and AI/Deep Learning for Time Series.md",
+    "11 - ML and AI/Model Validation in Finance.md",
+    "Reinforcement Learning for Trading.md",
+    "11 - ML and AI/Reinforcement Learning for Trading.md",
+    "05 - Strategies/Statistical Arbitrage/Sample Strategy - Pairs Trading.md",
+    "09 - Infrastructure/FIX Protocol.md",
+    "09 - Infrastructure/Low-Latency Systems.md",
+    "09 - Infrastructure/Monitoring and Alerting.md",
+    "09 - Infrastructure/Trading System Architecture.md",
+    "01 - Foundations/Macro Economics.md",
+    "QuantConnect Platform.md",
+    "01 - Foundations/Indices and Benchmarks.md",
+    "08 - Backtesting/QuantConnect Platform.md",
+    "09 - Infrastructure/Co-location and Proximity.md",
+    "05 - Strategies/Hedging Strategies.md",
+    "05 - Strategies/Commodities.md",
+    "Co-location and Proximity.md",
+    "05 - Strategies/FX Trading.md",
     "13 - Python Code/Python Code MOC.md",
     "00 - MOC/TODO - Vault Roadmap.md",
     "07 - Execution/Transaction Cost Analysis (TCA).md",
     "14 - Resources/Resources MOC.md",
-    "14 - Resources/Key People in Quant Finance.md",
-    "14 - Resources/Key Papers.md",
-    "14 - Resources/Glossary.md",
-    "14 - Resources/Essential Books.md",
-    "01 - Foundations/Order Types and Execution.md",
-    "01 - Foundations/Fees Commissions and Slippage.md",
-    "03 - Mathematics/Kalman Filter.md",
-    "01 - Foundations/What is Algorithmic Trading.md",
-    "03 - Mathematics/Time Series Analysis.md",
-    "03 - Mathematics/Cointegration.md",
-    "08 - Backtesting/Walk-Forward Analysis.md",
-    "08 - Backtesting/Survivorship Bias.md",
-    "08 - Backtesting/Performance Metrics.md",
-    "08 - Backtesting/Overfitting.md",
-    "08 - Backtesting/Lookahead Bias.md",
-    "08 - Backtesting/Backtesting Platforms and Frameworks.md",
-    "08 - Backtesting/Backtesting MOC.md",
-    "08 - Backtesting/Backtesting Framework Design.md",
-    "07 - Execution/Transaction Cost Analysis.md",
-    "07 - Execution/Smart Order Routing.md",
-    "07 - Execution/Iceberg Orders.md",
     "13 - Python Code/Monte Carlo Simulation.py",
     "13 - Python Code/Pairs Trading.py",
     "13 - Python Code/Simple Moving Average Crossover.py",

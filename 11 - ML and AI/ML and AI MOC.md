@@ -24,7 +24,8 @@ Raw Data → Feature Engineering → Train/Val/Test Split → Model Selection �
 ## Learning Paradigms
 - [[Supervised Learning]] — Predict target variable (returns, direction, volatility)
 - [[Unsupervised Learning]] — Find structure (clustering, dimensionality reduction)
-- [[Reinforcement Learning]] — Learn optimal trading policy through interaction
+- [[Reinforcement Learning]] — General theory and background
+- [[Reinforcement Learning for Trading]] — Direct optimization of trading policies
 - [[Deep Learning]] — Neural networks for complex pattern recognition
 - [[Natural Language Processing (NLP)]] — Extract signals from text (news, filings, social media)
 
@@ -79,6 +80,14 @@ Training on stocks that survived to the present.
 - Use point-in-time datasets
 - Include delisted stocks
 - See [[Survivorship Bias]]
+
+---
+
+## Model Lifecycle & Robustness
+- [[Feature Selection and Importance]] — Identifying predictive signal
+- [[Model Validation in Finance]] — Ensuring statistical robustness
+- [[Deep Learning for Time Series]] — Advanced sequential modeling
+- [[Overfitting]] — The #1 enemy in financial ML
 
 ---
 

@@ -47,13 +47,27 @@ def bond_price(face, coupon_rate, ytm, years, freq=2):
 
 The yield curve plots yields against maturities. It's the most important macro indicator for quants.
 
-### Shapes
+### shapes
 | Shape | Meaning | Historical Frequency |
 |-------|---------|---------------------|
 | **Normal (upward)** | Economy expanding, positive term premium | ~70% of time |
 | **Flat** | Transition, uncertainty | ~15% |
 | **Inverted** | Recession signal (3M > 10Y) | ~15% |
 | **Humped** | Mixed signals, policy transition | Rare |
+
+### Yield Curve Modeling (Fitting)
+Beyond simple linear interpolation, quants use parametric models to fit the entire curve to market data.
+
+#### 1. Nelson-Siegel (1987)
+A 3-factor model (Level, Slope, Curvature):
+$$y(T) = \beta_0 + \beta_1 \frac{1 - e^{-\lambda T}}{\lambda T} + \beta_2 \left( \frac{1 - e^{-\lambda T}}{\lambda T} - e^{-\lambda T} \right)$$
+- $\beta_0$: Long-term level
+- $\beta_1$: Short-term slope
+- $\beta_2$: Medium-term curvature
+
+#### 2. Nelson-Siegel-Svensson (1994)
+Adds a fourth term (second curvature factor) for more flexibility in the long end:
+$$y(T) = \beta_0 + \beta_1 \frac{1 - e^{-\lambda_1 T}}{\lambda_1 T} + \beta_2 \left( \frac{1 - e^{-\lambda_1 T}}{\lambda_1 T} - e^{-\lambda_1 T} \right) + \beta_3 \left( \frac{1 - e^{-\lambda_2 T}}{\lambda_2 T} - e^{-\lambda_2 T} \right)$$
 
 ### Key Spreads
 | Spread | Formula | What It Signals |
@@ -152,6 +166,8 @@ def duration_convexity(face, coupon_rate, ytm, years, freq=2):
 ---
 
 ## Interest Rate Models
+
+See [[Interest Rate Models]] for mathematical details.
 
 ### Short-Rate Models
 

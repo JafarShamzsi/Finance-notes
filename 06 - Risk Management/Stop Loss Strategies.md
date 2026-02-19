@@ -1,87 +1,59 @@
 # Stop Loss Strategies
 
-**Stops are the emergency brakes of trading. They limit individual trade losses but come with tradeoffs — too tight and you get stopped out of winning trades, too wide and you give back too much.**
+A **Stop Loss** is a predetermined exit point for a trade that is losing money. In quantitative trading, stop losses are not just about "protecting capital"; they are statistical tools used to invalidate a strategy's hypothesis.
 
 ---
 
-## Types of Stops
+## 1. Types of Stop Losses
 
-### 1. Fixed Stop
-```python
-stop_price = entry_price - fixed_amount  # e.g., $2 below entry
-```
-
-### 2. Percentage Stop
-```python
-stop_price = entry_price * (1 - stop_pct)  # e.g., 2% below entry
-```
-
-### 3. ATR-Based (Volatility Stop)
-```python
-def atr_stop(entry, atr, multiplier=2.0, direction='long'):
-    if direction == 'long':
-        return entry - multiplier * atr
-    return entry + multiplier * atr
-```
-
-### 4. Trailing Stop
-```python
-def trailing_stop(prices, trail_pct=0.05):
-    peak = prices.cummax()
-    stop = peak * (1 - trail_pct)
-    triggered = prices < stop
-    return stop, triggered
-```
-
-### 5. Chandelier Exit
-```python
-def chandelier_exit(highs, closes, atr, multiplier=3.0):
-    highest_high = highs.rolling(22).max()
-    return highest_high - multiplier * atr
-```
-
-### 6. Time-Based Stop
-```python
-def time_stop(entry_date, current_date, max_holding_days=10):
-    return (current_date - entry_date).days >= max_holding_days
-```
-
-## Strategy-Level vs Trade-Level Stops
-
-| Level | What It Protects | Example |
-|---|---|---|
-| **Trade** | Individual position | ATR stop at 2× ATR |
-| **Strategy** | Strategy allocation | Halt at -5% drawdown |
-| **Portfolio** | Total capital | Kill switch at -10% daily |
-
-## Stop Placement Considerations
-
-```
-Too tight: High win rate on exits → but you exit winners too early
-Too wide:  Let trades breathe → but losers can get very large
-Optimal:   Wide enough to survive noise, tight enough to cap loss
-```
-
-**Rule of thumb:** Stop should be placed beyond normal market noise.
-- Intraday: 1-2× ATR
-- Swing: 2-3× ATR
-- Trend following: 3-5× ATR
-
-## Pros and Cons
-
-| Pros | Cons |
-|---|---|
-| Limits max loss per trade | Gets triggered by normal volatility (whipsaw) |
-| Removes emotion from exits | Reduces win rate |
-| Enables position sizing | Guarantees realized losses |
-| Required for risk management | Slippage on stop execution in fast markets |
-
-## When NOT to Use Stops
-
-1. **Market-neutral strategies** — Hedged positions have natural protection
-2. **Mean reversion** — You're buying dips; a stop prevents the reversion
-3. **Options strategies** — Max loss is already defined by premium paid
+| Type | Logic | Use Case |
+|------|-------|----------|
+| **Hard Stop** | A fixed price or percentage below entry (e.g., -2%). | Simple momentum/breakout strategies. |
+| **Trailing Stop** | The stop level moves up as the price moves in your favor. | Trend following (locking in gains). |
+| **Volatility Stop (ATR)** | Stop is placed at $N \times$ Average True Range from the current price. | Adapting to current market noise. |
+| **Time Stop** | Exit if the strategy hasn't hit the target within $X$ hours/days. | Mean reversion or event-driven trades. |
+| **Technical Stop** | Exit if a specific indicator changes (e.g., RSI crosses 50). | Signal-driven strategies. |
 
 ---
 
-**Related:** [[Risk Management MOC]] | [[Position Sizing]] | [[Drawdown Management]] | [[Order Types and Execution]] | [[Trend Following]]
+## 2. The ATR Stop Logic
+
+Using the **Average True Range (ATR)** is the standard for quants because it scales the stop based on the current risk environment.
+
+**Formula:**
+$$\text{Stop Price} = \text{Entry Price} - (k \times \text{ATR})$$
+- $k$ is usually between $1.5$ and $3.0$.
+- **Why:** In high volatility, you need a wider stop to avoid being "shaken out" by random noise.
+
+---
+
+## 3. The "Stop Loss Paradox"
+
+For mean-reversion strategies, a stop loss can actually **reduce** the total return.
+- **The Logic:** Mean reversion bets that the price will come back. A stop loss forces you to exit at the *worst possible point* (the maximum deviation).
+- **The Fix:** Use a "Regime-Based Exit" instead of a hard stop, or size the position so small that you can weather the deviation.
+
+---
+
+## 4. Execution of Stops: Slippage Risk
+
+A stop-loss order becomes a **Market Order** once triggered.
+- **The Danger:** In a "Flash Crash," your stop at $100 might be triggered, but the next available bid is $90. You lose 10% instead of 2%.
+- **Mitigation:** Use "Stop-Limit" orders (with the risk of no fill) or deep-OTM put options for catastrophic protection.
+
+---
+
+## 5. Implementation Checklist
+
+- [ ] **Account for Spread:** Is your stop level inside or outside the bid-ask spread?
+- [ ] **Backtest Sensitivity:** Does the strategy's Sharpe Ratio improve or worsen with the stop?
+- [ ] **Venue Choice:** Are the stops held locally on your server or at the exchange? (Exchange-side is safer).
+
+---
+
+## Related Notes
+- [[Risk Management MOC]] — Broader safety context
+- [[Drawdown Management]] — Limiting the portfolio-level hit
+- [[Position Sizing]] — Relationship between stop width and size
+- [[Order Types and Execution]] — Technical implementation of stops
+- [[Volatility Trading]] — Understanding the ATR driver

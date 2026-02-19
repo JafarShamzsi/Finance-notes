@@ -11,6 +11,7 @@ Portfolio management is the art and science of combining assets to maximize risk
 ### Portfolio Construction
 - [[Modern Portfolio Theory]] — Mean-variance optimization, efficient frontier
 - [[Black-Litterman Model]] — Combining market equilibrium with views
+- [[Bayesian Portfolio Optimization]] — Incorporating uncertainty and priors
 - [[Factor Models]] — Decomposing returns into systematic risk factors
 - [[Portfolio Optimization]] — Practical optimization beyond Markowitz
 

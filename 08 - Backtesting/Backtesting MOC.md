@@ -37,6 +37,7 @@ Hypothesis → Data Collection → Strategy Logic → Backtest Engine → Analys
 ## Framework Design
 - [[Backtesting Framework Design]] — Architecture of a backtest engine
 - [[Walk-Forward Analysis]] — Rolling out-of-sample validation
+- [[Monte Carlo Backtesting]] — Stress-testing via path randomization
 
 ### Event-Driven vs. Vectorized
 

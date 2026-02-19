@@ -33,7 +33,13 @@ Spread = $100.03 - $100.01 = $0.02
 
 ## Key Metrics
 
-### Order Book Imbalance
+### Order Book Imbalance (OBI)
+Predictive of short-term price direction. A surplus of bid volume suggests buying pressure.
+
+$$ \text{OBI} = \frac{V_b - V_a}{V_b + V_a} $$
+
+- **Research:** Cont et al. (2014) showed OBI is the single strongest predictor of the next tick direction.
+
 ```python
 def order_book_imbalance(bid_volume, ask_volume):
     """
@@ -43,7 +49,30 @@ def order_book_imbalance(bid_volume, ask_volume):
     return (bid_volume - ask_volume) / (bid_volume + ask_volume)
 ```
 
-Strong predictor of next-tick price movement (see [[High-Frequency Trading]]).
+### Micro-Price (Volume-Weighted Mid Price)
+The mid-price assumes the next trade is equally likely to be a buy or sell. The micro-price adjusts for the imbalance.
+
+$$ P_{\text{micro}} = \frac{V_b P_a + V_a P_b}{V_b + V_a} = P_{\text{mid}} + \frac{\text{Spread}}{2} \cdot \text{OBI} $$
+
+- If $V_b \gg V_a$ (heavy bids), the micro-price moves closer to the Ask, correctly anticipating an uptick.
+
+---
+
+## 5. Queue Position & Latency
+
+For a market maker, your position in the FIFO queue at the best bid/ask is critical.
+
+- **Queue Priority:** First In, First Out (FIFO).
+- **Estimated Position:** If you join a queue of 1,000 shares, and 500 trade, you are now 500th in line.
+- **Cancel-Replace Risk:** Modifying an order often sends you to the back of the queue.
+
+### Probability of Fill
+Depends on:
+1.  **Queue Size ahead of you:** Smaller is better.
+2.  **Trade Rate (Arrival Rate):** Higher volume increases fill probability.
+3.  **Cancellation Rate:** Other traders cancelling moves you up the queue.
+
+---
 
 ### Depth
 ```python

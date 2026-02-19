@@ -232,6 +232,51 @@ $$L^{CLIP}(\theta) = \mathbb{E}\left[\min\left(r_t(\theta)\hat{A}_t, \text{clip}
 - Industry standard for continuous control
 - Use libraries: `stable-baselines3`, `ray[rllib]`
 
+### 4. Actor-Critic (A2C/A3C) — Best of Both Worlds
+
+Actor-Critic models combine the advantages of Policy Gradient (Actor) and Q-Learning (Critic).
+- **Actor:** Learns the policy $\pi(a|s)$.
+- **Critic:** Learns the value function $V(s)$ to reduce variance in the actor's updates.
+
+```python
+class ActorCriticTrader(nn.Module):
+    def __init__(self, state_dim, n_actions):
+        super().__init__()
+        self.common = nn.Linear(state_dim, 128)
+        self.actor = nn.Linear(128, n_actions)
+        self.critic = nn.Linear(128, 1)
+
+    def forward(self, x):
+        x = torch.relu(self.common(x))
+        policy = torch.softmax(self.actor(x), dim=-1)
+        value = self.critic(x)
+        return policy, value
+```
+
+---
+
+## Reward Shaping for Finance
+
+Designing the reward function is the most critical part of RL in trading. A poorly designed reward leads to unintended behaviors (e.g., the agent learning to "churn" the account for tiny rewards that don't cover costs).
+
+### 1. Risk-Adjusted Rewards
+- **Sharpe Reward:** $r_t = \frac{\mu}{\sigma}$ (hard to compute incrementally).
+- **Sortino Reward:** Only penalizes downside volatility.
+- **Calmar Reward:** Penalizes maximum drawdown.
+
+### 2. Implementation Shortfall (for Execution)
+Reward the agent for beating a benchmark price (e.g., arrival price or VWAP):
+$$R = (P_{\text{executed}} - P_{\text{arrival}}) \times \text{side} - \text{costs}$$
+
+### 3. Log-Return Reward
+Promotes geometric growth and handles compounding naturally:
+$$R_t = \ln(1 + r_t)$$
+
+### 4. Curse of Transaction Costs
+Always include a penalty for turnover:
+$$R_t = \text{P\&L}_t - \text{Cost} \cdot |\Delta w_t|$$
+Without this, the agent will trade on every tiny signal, losing all alpha to slippage.
+
 ---
 
 ## Applications in Finance

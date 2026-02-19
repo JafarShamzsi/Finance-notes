@@ -1,53 +1,58 @@
-# Pattern Day Trader Rule
+# Pattern Day Trader (PDT) Rule
 
-FINRA Rule 4210 — affects retail and small prop traders. Institutional desks at JPM/Bloomberg are exempt but you need to understand it.
-
----
-
-## The Rule
-
-**Pattern Day Trader (PDT):** Any margin account that executes **4 or more day trades within 5 business days**, where day trades represent more than 6% of total trading activity.
-
-**Day trade:** Opening and closing the same position in the same trading day.
-
-**Requirement:** PDT accounts must maintain **minimum equity of $25,000** at all times.
+The **Pattern Day Trader (PDT) Rule** is a FINRA mandate that applies to US retail margin accounts. For quants building automated strategies, the PDT rule is a critical operational constraint that affects strategy frequency and leverage.
 
 ---
 
-## Key Details
+## 1. What is a "Day Trade"?
 
-| Aspect | Rule |
-|--------|------|
-| Minimum equity | $25,000 (cash + securities) |
-| Account type | Margin accounts only (cash accounts exempt but have settlement rules) |
-| Buying power | 4x maintenance margin (intraday) |
-| Violation | Account restricted to closing trades for 90 days |
-| Applies to | US-regulated broker accounts |
+A **Day Trade** is defined as the opening and closing of the same security (stock or option) on the same trading day.
+- **Example:** Buy 100 AAPL at 10:00 AM and Sell 100 AAPL at 3:00 PM.
 
 ---
 
-## Workarounds (Legal)
+## 2. The PDT Definition
 
-1. **Cash account** — No PDT rule, but must wait for settlement (T+1)
-2. **Multiple brokers** — 3 day trades per 5 days per broker
-3. **Swing trading** — Hold overnight to avoid day trade classification
-4. **Futures/Forex** — PDT rule doesn't apply
-5. **Offshore broker** — Non-US brokers may not enforce PDT
-6. **Prop firm** — Trade with firm capital (no PDT)
+A trader is classified as a **Pattern Day Trader** if:
+1.  They execute **4 or more day trades within 5 business days**.
+2.  Those trades represent more than 6% of their total trading activity for that period.
 
 ---
 
-## Why Institutional Quants Don't Worry About PDT
+## 3. The Requirement: $25,000 Minimum
 
-- PDT applies to **individual accounts** at FINRA-member broker-dealers
-- Institutional accounts (hedge funds, bank desks) trade under different rules
-- But understanding PDT matters when:
-  - Building retail-facing products
-  - Managing personal accounts
-  - Designing strategies for retail platforms
+Once classified as a PDT, the account must maintain a minimum equity of **$25,000** at all times.
+- **The Penalty:** If the account drops below $25k, the trader is restricted from day trading until the balance is restored.
+- **Day Trading Buying Power:** PDT accounts are granted **4:1 intraday leverage** (vs. the standard 2:1 overnight leverage).
+
+---
+
+## 4. Impact on Quantitative Strategies
+
+The PDT rule creates a "Liquidity Wall" for small retail algorithms:
+
+| Strategy Type | PDT Impact |
+|---------------|------------|
+| **High-Frequency (HFT)** | Impossible without $25k+. |
+| **Intraday Mean Reversion** | Must limit trades to < 3 per week if < $25k. |
+| **Swing Trading** | Generally unaffected (holding periods > 1 day). |
+| **Crypto Trading** | **Not Applicable.** Crypto is currently exempt from PDT. |
+| **Futures Trading** | **Not Applicable.** Futures have different margin rules. |
+
+---
+
+## 5. Strategies to Manage PDT Constraints
+
+1.  **Hold Overnight:** Design signals that fire at the close and exit at the next day's open. (Increases "Gap Risk").
+2.  **Trade Futures/FX/Crypto:** If capital is < $25k, these markets allow high-frequency testing without the PDT restriction.
+3.  **Use Cash Account:** PDT only applies to *margin* accounts. However, cash accounts are limited by "T+1 Settlement" (you can't trade with unsettled funds).
+4.  **Trade from Overseas:** Non-US brokers (sometimes) have different rules for non-US citizens, though most follow FINRA standards for US listed stocks.
 
 ---
 
 ## Related Notes
-- [[SEC and FINRA Rules]] — Broader FINRA framework
-- [[Regulation and Compliance MOC]] — Parent note
+- [[Regulation and Compliance MOC]] — Broader legal context
+- [[SEC and FINRA Rules]] — Other regulatory bodies
+- [[Asset Classes]] — Where PDT applies (Equities/Options)
+- [[Margin and Leverage]] — (To be created) The mechanics of buying power
+- [[Trading Sessions and Hours]] — Context for same-day trades

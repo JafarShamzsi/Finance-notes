@@ -1,19 +1,65 @@
 # Order Routing
 
-Order routing is the process by which a broker sends a client's order to an execution venue for execution. The goal of order routing is to find the best possible execution for the client's order, taking into account factors such as price, speed, and likelihood of execution.
+**Order Routing** is the process by which a parent order (the "intent") is translated into specific child orders and sent to various execution venues. It is the tactical arm of the execution engine.
 
-## Smart Order Routers (SORs)
-- **Description:** Smart Order Routers are algorithms that automate the order routing process. They use a set of rules and real-time market data to determine the best venue to which to route an order.
-- **SOR Logic:** SORs typically consider the following factors:
-    - **Venue fees:** The costs associated with trading on different venues.
-    - **Liquidity:** The amount of trading activity on different venues.
-    - **Latency:** The time it takes to send an order to a venue and receive a confirmation.
-    - **Price improvement:** The potential to get a better price than the National Best Bid and Offer (NBBO).
+---
 
-## Common Order Routing Strategies
-- **Spray:** Sending small orders to multiple venues simultaneously.
-- **Sequential:** Sending an order to one venue at a time until it is filled.
-- **Ping:** Sending a small order to a venue to test for liquidity before sending a larger order.
+## 1. The Routing Hierarchy
 
-## Regulation of Order Routing
-- **Regulation NMS (National Market System):** A set of rules in the United States that are designed to promote fair and efficient markets. One of the key provisions of Regulation NMS is the "Order Protection Rule," which requires brokers to route orders to the venue with the best price.
+1.  **Parent Order:** "Buy 10,000 AAPL."
+2.  **Execution Algorithm:** Decides to use [[VWAP Algorithm]].
+3.  **Order Router:** Slices the 10,000 into 100-share chunks.
+4.  **Venue Selection:** The [[Smart Order Routing]] (SOR) decides which exchange gets which 100-share chunk.
+5.  **Child Order:** Sends `FIX 35=D` to NASDAQ.
+
+---
+
+## 2. Common Routing Tactics
+
+| Tactic | Description | Use Case |
+|--------|-------------|----------|
+| **Spray** | Sending multiple child orders to all lit exchanges simultaneously to capture existing liquidity before it vanishes. | Aggressive execution, sweep the book. |
+| **Probe (Ping)** | Sending tiny orders (100 shares) to various venues to detect hidden liquidity or [[Iceberg Orders]]. | Discovering depth without leaking size. |
+| **Sequential** | Filling on the cheapest venue first, then moving to the next. | Minimizing transaction costs. |
+| **Pegging** | Dynamically adjusting the limit price of a child order to stay at the bid, ask, or midpoint. | Passive execution, earning rebates. |
+
+---
+
+## 3. Order Lifecycle in Routing
+
+A router must track every child order's state using the **[[FIX Protocol]]**:
+- **Pending New:** Order sent, waiting for acknowledgment.
+- **New:** Order acknowledged by the exchange.
+- **Partial Fill:** Part of the size is done.
+- **Filled:** Order complete.
+- **Cancelled/Rejected:** Something went wrong or the price moved.
+
+---
+
+## 4. Routing Risks
+
+### A. Adverse Selection
+If your router is too predictable, other traders will detect your pattern and "front-run" your orders on other venues.
+
+### B. Race Conditions
+In fragmented markets, two different routers might try to hit the same bid simultaneously. The faster router gets the fill; the slower one gets a "Reject" or a worse price.
+
+### C. Over-filling
+If you send "Buy 500" to three different venues expecting one to fill, but all three fill, you have bought 1,500 shares. A robust router uses a **Centralized Position Tracker** to prevent this.
+
+---
+
+## 5. Direct Market Access (DMA) vs. Broker Routing
+
+- **DMA:** You control the router and send orders directly to the exchange matching engine. (Preferred by HFTs and sophisticated quants).
+- **Broker Routing:** You send the parent order to a broker (e.g., J.P. Morgan, Goldman Sachs), and they use their proprietary SOR to execute it.
+
+---
+
+## Related Notes
+- [[Execution MOC]] — Parent section
+- [[Smart Order Routing]] — The logic behind venue selection
+- [[Execution Venues]] — Where orders are routed
+- [[FIX Protocol]] — The language of routing
+- [[Connectivity]] — The physical path of the order
+- [[Implementation Shortfall]] — Measuring the effectiveness of routing
