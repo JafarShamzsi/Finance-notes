@@ -13,28 +13,20 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "08 - Backtesting/Monte Carlo Backtesting.md",
+                "file": "01 - Foundations/Asset Classes.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Monte Carlo Backtesting"
+              "title": "Asset Classes"
             }
-          }
-        ]
-      },
-      {
-        "id": "c2ffa0d018e962ce",
-        "type": "tabs",
-        "children": [
+          },
           {
-            "id": "0c8685c9551eecd8",
+            "id": "eac61faefa01b4c6",
             "type": "leaf",
-            "pinned": true,
             "state": {
               "type": "graph",
               "state": {},
-              "pinned": true,
               "icon": "lucide-git-fork",
               "title": "Graph view"
             }
@@ -51,6 +43,7 @@
       {
         "id": "abed81bec4eba920",
         "type": "tabs",
+        "dimension": 70.93023255813954,
         "children": [
           {
             "id": "7a69f6b5b6ffa594",
@@ -93,10 +86,29 @@
             }
           }
         ]
+      },
+      {
+        "id": "240d5e3b798b9a20",
+        "type": "tabs",
+        "dimension": 29.069767441860467,
+        "children": [
+          {
+            "id": "0c8685c9551eecd8",
+            "type": "leaf",
+            "pinned": true,
+            "state": {
+              "type": "graph",
+              "state": {},
+              "pinned": true,
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          }
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 267.5
   },
   "right": {
     "id": "2599262e8fd8d2fc",
@@ -216,9 +228,23 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "0c8685c9551eecd8",
+  "active": "452d5fc45b1d1024",
   "lastOpenFiles": [
+    "02 - Market Microstructure/Bid-Ask Spread.md",
+    "07 - Execution/Transaction Cost Analysis.md",
+    "03 - Mathematics/Time Series Analysis.md",
+    "03 - Mathematics/Optimization Methods.md",
+    "03 - Mathematics/Mathematics MOC.md",
+    "03 - Mathematics/Derivatives Pricing.md",
+    "03 - Mathematics/Monte Carlo Simulation.md",
+    "03 - Mathematics/Black-Scholes Model.md",
+    "ADX.md",
+    "03 - Mathematics/Cointegration.md",
+    "03 - Mathematics/Interest Rate Models.md",
+    "03 - Mathematics/GARCH Models.md",
     "08 - Backtesting/Monte Carlo Backtesting.md",
+    "01 - Foundations/Financial Markets Overview.md",
+    "01 - Foundations/Asset Classes.md",
     "00 - MOC/Trading Algorithms Master Index.md",
     "10 - Portfolio Management/Bayesian Portfolio Optimization.md",
     "11 - ML and AI/Feature Selection and Importance.md",
@@ -230,20 +256,6 @@
     "09 - Infrastructure/FIX Protocol.md",
     "09 - Infrastructure/Low-Latency Systems.md",
     "09 - Infrastructure/Monitoring and Alerting.md",
-    "09 - Infrastructure/Trading System Architecture.md",
-    "01 - Foundations/Macro Economics.md",
-    "QuantConnect Platform.md",
-    "01 - Foundations/Indices and Benchmarks.md",
-    "08 - Backtesting/QuantConnect Platform.md",
-    "09 - Infrastructure/Co-location and Proximity.md",
-    "05 - Strategies/Hedging Strategies.md",
-    "05 - Strategies/Commodities.md",
-    "Co-location and Proximity.md",
-    "05 - Strategies/FX Trading.md",
-    "13 - Python Code/Python Code MOC.md",
-    "00 - MOC/TODO - Vault Roadmap.md",
-    "07 - Execution/Transaction Cost Analysis (TCA).md",
-    "14 - Resources/Resources MOC.md",
     "13 - Python Code/Monte Carlo Simulation.py",
     "13 - Python Code/Pairs Trading.py",
     "13 - Python Code/Simple Moving Average Crossover.py",
